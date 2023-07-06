@@ -1,11 +1,11 @@
 package com.sqli.intern.api.validator.dto;
 
-import com.sqli.intern.api.validator.utils.ValidationStatus;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
-
-@Data
+@Getter @Setter
+@Builder
 public class RequestDto {
     private String expectedResponse;
     private String actualResponse;
