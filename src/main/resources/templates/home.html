@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>API Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #333;
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 50px 10%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.5s ease-in-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        form {
+            padding: 20px;
+            width: 40%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: none;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            margin: 20px 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .response {
+            padding: 20px;
+            width: 50%;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        .response p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .response .status {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .response .result {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .method-get {
+            color: #3ab63a;
+        }
+
+        .method-post {
+            color: #14678a;
+        }
+
+        .method-put {
+            color: rgba(245, 158, 26, 0.85);
+        }
+
+        .method-delete {
+            color: #ab1829;
+        }
+    </style>
+</head>
+<body>
+<h1>API Test Page</h1>
+<div class="container">
+    <form th:action="@{/handleApiRequest}" method="post">
+        <h2>API Request</h2>
+        <label for="url">API URL:</label>
+        <input type="text" id="url" name="url">
+        <label for="method">API Method:</label>
+        <select id="method" name="method" onchange="toggleBodyField()">
+            <option value="GET" class="method-get">GET</option>
+            <option value="POST" class="method-post">POST</option>
+            <option value="PUT" class="method-put">PUT</option>
+            <option value="DELETE" class="method-delete">DELETE</option>
+        </select>
+
+        <div id="bodyField" style="display: none;">
+            <label for="body">API Body:</label>
+            <textarea id="body" name="body"></textarea>
+        </div>
+
+        <script>
+            function toggleBodyField() {
+                var methodSelect = document.getElementById("method");
+                var bodyField = document.getElementById("bodyField");
+
+                if (methodSelect.value === "POST" || methodSelect.value === "PUT") {
+                    bodyField.style.display = "block";
+                } else {
+                    bodyField.style.display = "none";
+                }
+            }
+        </script>
+
+        <label for="response">Expected Response:</label>
+        <textarea id="response" name="response"></textarea>
+
+        <input type="submit" value="Send">
+    </form>
+
+    <div class="response" >
+        <h2>API Response</h2>
+        <p>Status: <span class="status" id="statusField"></span></p>
+        <p>Response: <span class="result" id="responseField"></span></p>
+    </div>
+</div>
+</body>
+</html>
