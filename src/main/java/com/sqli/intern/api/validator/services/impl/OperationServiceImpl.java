@@ -1,6 +1,6 @@
 package com.sqli.intern.api.validator.services.impl;
 
-import com.sqli.intern.api.validator.chainofvalidation.Caller;
+import com.sqli.intern.api.validator.chainofvalidation.StrategyWs;
 import com.sqli.intern.api.validator.dtos.RequestDto;
 import com.sqli.intern.api.validator.dtos.ResponseDto;
 import com.sqli.intern.api.validator.services.OperationService;
@@ -14,8 +14,7 @@ import org.springframework.stereotype.Service;
 @NoArgsConstructor
 public class OperationServiceImpl implements OperationService {
     @Autowired
-    public Caller caller;
-
+    private StrategyWs strategyWs;
     @Override
     public ResponseDto call(RequestDto requestDto) {
         final ResponseDto responseDto = ResponseDto.builder()
@@ -24,7 +23,7 @@ public class OperationServiceImpl implements OperationService {
                 .body(requestDto.getBody())
                 .expectedResponse(requestDto.getExpectedResponse())
                 .build();
-        caller.call(responseDto);
+        strategyWs.getCaller(requestDto.getType()).call(responseDto);
         return responseDto;
     }
 }

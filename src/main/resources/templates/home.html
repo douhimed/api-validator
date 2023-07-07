@@ -154,21 +154,21 @@
 <body>
 <h1>API Test Page</h1>
 <div class="container">
-    <form th:action="@{/call}" method="post" enctype="application/json" modelAttribute="requestDto">>
+    <form th:action="@{/home}" method="post" enctype="application/json" th:object="${requestDto}">>
         <h2>API Request</h2>
         <label for="url">API URL:</label>
-        <input type="text" id="url" name="url" value="${requestDto.url}">
+        <input type="text" id="url" name="url" th:value="*{url}">
         <label for="method">API Method:</label>
-        <select id="method" name="method" onchange="toggleBodyField()">
-            <option value="GET" class="method-get" th:selected="${requestDto.type == 'GET'}">GET</option>
-            <option value="POST" class="method-post" th:selected="${requestDto.type == 'POST'}">POST</option>
-            <option value="PUT" class="method-put" th:selected="${requestDto.type == 'PUT'}">PUT</option>
-            <option value="DELETE" class="method-delete" th:selected="${requestDto.type == 'DELETE'}">DELETE</option>
+        <select id="method" name="type" onchange="toggleBodyField()">
+            <option value="GET" class="method-get" th:selected="*{type == 'GET'}">GET</option>
+            <option value="POST" class="method-post" th:selected="*{type == 'POST'}">POST</option>
+            <option value="PUT" class="method-put" th:selected="*{type == 'PUT'}">PUT</option>
+            <option value="DELETE" class="method-delete" th:selected="*{type == 'DELETE'}">DELETE</option>
         </select>
 
         <div id="bodyField" style="display: none;">
             <label for="body">API Body:</label>
-            <textarea id="body" name="body" value="${requestDto.body}"></textarea>
+            <textarea id="body" name="body" th:value="*{body}"></textarea>
         </div>
 
         <script>
@@ -185,15 +185,18 @@
         </script>
 
         <label for="response">Expected Response:</label>
-        <textarea id="response" name="response" value="${requestDto.expectedResponse}"></textarea>
+        <textarea id="response" name="response" th:text="*{expectedResponse}"></textarea>
 
         <input type="submit" value="Send">
     </form>
 
-    <div class="response" >
+    <div class="response">
         <h2>API Response</h2>
-        <p>Status: <span class="status" th:text="${responseDto.httpStatus}"></span></p>
-        <p>Response: <span class="result" th:text="${responseDto.currentResponse}"></span></p>
+        <div th:if="${responseDto != null}">
+            <p>Status: <span class="status" th:text="${responseDto.httpStatus}"></span></p>
+            <p>Response: <span class="result" th:text="${responseDto.currentResponse}"></span></p>
+        </div>
+
     </div>
 </div>
 </body>

@@ -12,7 +12,7 @@ public class GetRequestHandler extends ApiCaller {
     }
 
     @Override
-    public String getBody(ResponseDto responseDto) {
+    public HttpEntity getBody(ResponseDto responseDto) {
         return null;
     }
 

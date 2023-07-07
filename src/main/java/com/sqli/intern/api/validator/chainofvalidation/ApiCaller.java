@@ -11,7 +11,7 @@ public abstract class ApiCaller extends ApiValidationHandler implements Caller {
 
     public abstract HttpMethod getType();
 
-    public abstract String getBody(ResponseDto responseDto);
+    public abstract HttpEntity getBody(ResponseDto responseDto);
 
 
     @Override
@@ -23,14 +23,12 @@ public abstract class ApiCaller extends ApiValidationHandler implements Caller {
     public void invoke(ResponseDto responseDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> requestEntity = new HttpEntity<>(getBody(responseDto), headers);
         ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl(),
                 getType(),
-                requestEntity,
+                getBody(responseDto),
                 String.class);
         responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
-        responseDto.setExpectedResponse(responseEntity.getBody());
-
+        responseDto.setCurrentResponse(responseEntity.getBody());
         invokeNext(responseDto);
     }
 }

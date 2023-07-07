@@ -1,14 +1,13 @@
 package com.sqli.intern.api.validator.dtos;
 
 import com.sqli.intern.api.validator.utils.enums.ValidationStatus;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseDto {
     private String url;
     private String type;
