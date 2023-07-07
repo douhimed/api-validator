@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.client;
+package com.sqli.intern.api.validator.client.web;
 
 import com.sqli.intern.api.validator.dtos.RequestDto;
 import com.sqli.intern.api.validator.dtos.ResponseDto;
