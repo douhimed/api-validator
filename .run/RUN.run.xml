@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RUN" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.sqli.intern.api.validator.Application" />
+    <module name="api.validator" />
+    <method v="2" />
+  </configuration>
+</component>
