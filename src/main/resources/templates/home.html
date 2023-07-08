@@ -194,7 +194,9 @@
         <h2>API Response</h2>
         <div th:if="${responseDto != null}">
             <p>Status: <span class="status" th:text="${responseDto.httpStatus}"></span></p>
-            <p>Response: <span class="result" th:text="${responseDto.currentResponse}"></span></p>
+            <p>Response:
+            <pre><span class="result" th:text="${responseDto.currentResponse}"></span></pre>
+            </p>
         </div>
 
     </div>
