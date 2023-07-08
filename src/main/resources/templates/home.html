@@ -154,7 +154,7 @@
 <body>
 <h1>API Test Page</h1>
 <div class="container">
-    <form th:action="@{/home}" method="post" enctype="application/json" th:object="${requestDto}">>
+    <form th:action="@{/home}" method="post" enctype="application/json" th:object="${requestDto}">
         <h2>API Request</h2>
         <label for="url">API URL:</label>
         <input type="text" id="url" name="url" th:value="*{url}">
