@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.utils.enums;
+package com.sqli.intern.api.validator.utilities.enums;
 
 public enum OperationTypeEnum {
     GET, POST, DELETE, PUT;

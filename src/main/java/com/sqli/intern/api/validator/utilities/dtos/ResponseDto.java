@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.utils.dtos;
+package com.sqli.intern.api.validator.utilities.dtos;
 
 import lombok.*;
 

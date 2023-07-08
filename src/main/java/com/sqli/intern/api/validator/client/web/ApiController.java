@@ -1,7 +1,7 @@
 package com.sqli.intern.api.validator.client.web;
 
-import com.sqli.intern.api.validator.utils.dtos.RequestDto;
-import com.sqli.intern.api.validator.utils.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
+import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.services.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

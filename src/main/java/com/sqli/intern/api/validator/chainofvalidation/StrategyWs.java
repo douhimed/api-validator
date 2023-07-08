@@ -1,8 +1,8 @@
 package com.sqli.intern.api.validator.chainofvalidation;
 
-import com.sqli.intern.api.validator.exceptions.OperationException;
-import com.sqli.intern.api.validator.utils.enums.ExceptionMessageEnum;
-import com.sqli.intern.api.validator.utils.enums.OperationTypeEnum;
+import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
+import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
+import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
