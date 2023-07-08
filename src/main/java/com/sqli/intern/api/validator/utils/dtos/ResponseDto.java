@@ -1,6 +1,5 @@
-package com.sqli.intern.api.validator.dtos;
+package com.sqli.intern.api.validator.utils.dtos;
 
-import com.sqli.intern.api.validator.utils.enums.ValidationStatus;
 import lombok.*;
 
 @Getter
@@ -15,6 +14,4 @@ public class ResponseDto {
     private String expectedResponse;
     private String httpStatus;
     private String currentResponse;
-    private String message;
-    private ValidationStatus validationStatus;
 }

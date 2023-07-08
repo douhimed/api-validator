@@ -1,5 +1,7 @@
 package com.sqli.intern.api.validator.chainofvalidation;
 
+import com.sqli.intern.api.validator.exceptions.OperationException;
+import com.sqli.intern.api.validator.utils.enums.ExceptionMessageEnum;
 import com.sqli.intern.api.validator.utils.enums.OperationTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,7 @@ public class StrategyWs {
     public Caller getCaller(String type) {
         if (OperationTypeEnum.isTypeGet(type))
             return getRequestHandler;
-        throw new RuntimeException("NOT VALID OPERATION");
+        throw new OperationException(ExceptionMessageEnum.OPERATION_NOT_ELIGIBLE.getMessage());
     }
 
 }

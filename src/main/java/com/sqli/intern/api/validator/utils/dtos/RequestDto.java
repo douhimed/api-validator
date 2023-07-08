@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.dtos;
+package com.sqli.intern.api.validator.utils.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

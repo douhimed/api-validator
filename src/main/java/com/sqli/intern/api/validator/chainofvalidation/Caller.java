@@ -1,6 +1,6 @@
 package com.sqli.intern.api.validator.chainofvalidation;
 
-import com.sqli.intern.api.validator.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utils.dtos.ResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component

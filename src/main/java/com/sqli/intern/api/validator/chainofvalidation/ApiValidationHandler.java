@@ -1,6 +1,8 @@
 package com.sqli.intern.api.validator.chainofvalidation;
 
-import com.sqli.intern.api.validator.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utils.dtos.ResponseDto;
+
+import java.util.Objects;
 
 public abstract class ApiValidationHandler {
     protected ApiValidationHandler next;
@@ -11,7 +13,7 @@ public abstract class ApiValidationHandler {
     }
 
     public void invokeNext(ResponseDto responseDto) {
-        if (next != null) {
+        if (Objects.nonNull(next)) {
             next.invoke(responseDto);
         }
     }
