@@ -12,5 +12,5 @@ public class RequestDto {
     private String type;
     private String body;
     private String expectedResponse;
-
+    private String actualResponse;
 }

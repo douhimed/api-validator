@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.chainofvalidation;
+package com.sqli.intern.api.validator.core;
 
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;;
 import org.springframework.http.*;
@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 public abstract class ApiCaller extends ApiValidationHandler implements Caller {
+
     public static final RestTemplate REST_TEMPLATE = new RestTemplate();
 
     public abstract HttpMethod getType();
