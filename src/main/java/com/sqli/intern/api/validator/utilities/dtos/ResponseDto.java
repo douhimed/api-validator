@@ -17,7 +17,6 @@ public class ResponseDto {
     private String body;
     private String expectedResponse;
     private String httpStatus;
-    private String currentResponse;
     private String actualResponse;
     private List<String> message;
     private ValidationStatus validationStatus;

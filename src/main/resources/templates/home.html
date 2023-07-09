@@ -195,7 +195,7 @@
         <div th:if="${responseDto != null}">
             <p>Status: <span class="status" th:text="${responseDto.httpStatus}"></span></p>
             <p>Response:
-            <pre><span class="result" th:text="${responseDto.currentResponse}"></span></pre>
+            <pre><span class="result" th:text="${responseDto.actualResponse}"></span></pre>
             </p>
         </div>
 

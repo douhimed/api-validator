@@ -32,7 +32,7 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
                 getBody(responseDto),
                 String.class);
         responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
-        responseDto.setCurrentResponse(responseEntity.getBody());
+        responseDto.setActualResponse(responseEntity.getBody());
         invokeNext(responseDto);
     }
 }
