@@ -4,7 +4,7 @@ import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface Caller {
+public interface RestCaller {
     void call(ResponseDto responseDto);
 
 }

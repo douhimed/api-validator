@@ -1,11 +1,11 @@
-package com.sqli.intern.api.validator.core;
+package com.sqli.intern.api.validator.core.impl;
 
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetRequestHandler extends ApiCaller {
+public class GetRequestHandler extends RestHandler {
     @Override
     public HttpMethod getType() {
         return HttpMethod.GET;
