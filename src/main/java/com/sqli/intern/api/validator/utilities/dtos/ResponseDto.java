@@ -1,6 +1,6 @@
 package com.sqli.intern.api.validator.utilities.dtos;
 
-import com.sqli.intern.api.validator.utils.ValidationStatus;
+import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import lombok.*;
 
 import java.util.List;

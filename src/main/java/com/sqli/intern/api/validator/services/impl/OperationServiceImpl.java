@@ -5,7 +5,7 @@ import com.sqli.intern.api.validator.core.StrategyWs;
 import com.sqli.intern.api.validator.services.OperationService;
 import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
-import com.sqli.intern.api.validator.utils.ValidationStatus;
+import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
