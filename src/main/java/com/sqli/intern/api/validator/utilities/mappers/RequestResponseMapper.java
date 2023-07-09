@@ -5,7 +5,7 @@ import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 
 public final class RequestResponseMapper {
 
-    public RequestResponseMapper() {
+    private RequestResponseMapper() {
         throw new RuntimeException("INSTANTIATION NOT ALLOWED");
     }
 
