@@ -1,10 +1,10 @@
-package com.sqli.intern.api.validator.chainOfValidation;
+package com.sqli.intern.api.validator.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
-import com.sqli.intern.api.validator.dto.ResponseDto;
+import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utils.ValidationStatus;
 import org.springframework.stereotype.Component;
 

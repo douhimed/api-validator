@@ -1,7 +1,7 @@
 package com.sqli.intern.api.validator.client.rest;
 
-import com.sqli.intern.api.validator.dto.RequestDto;
 import com.sqli.intern.api.validator.services.OperationService;
+import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
 import com.sqli.intern.api.validator.utils.ValidationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

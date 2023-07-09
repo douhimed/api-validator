@@ -1,23 +1,24 @@
-package com.sqli.intern.api.validator.dto;
+package com.sqli.intern.api.validator.utilities.dtos;
 
 import com.sqli.intern.api.validator.utils.ValidationStatus;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseDto {
+
     private String url;
     private String type;
     private String body;
     private String expectedResponse;
-    private String httpStatusCode;
+    private String httpStatus;
+    private String currentResponse;
     private String actualResponse;
     private List<String> message;
     private ValidationStatus validationStatus;
-
 }
