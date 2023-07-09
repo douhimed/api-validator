@@ -1,14 +1,17 @@
-package com.sqli.intern.api.validator.core;
+package com.sqli.intern.api.validator.core.impl;
 
+import com.sqli.intern.api.validator.core.RestCaller;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public abstract class ApiCaller extends ApiValidationHandler implements Caller {
+public abstract class RestHandler extends OperationHandler implements RestCaller {
 
-    public static final RestTemplate REST_TEMPLATE = new RestTemplate();
+    @Autowired
+    public RestTemplate restTemplate;
 
     public abstract HttpMethod getType();
 
@@ -24,7 +27,7 @@ public abstract class ApiCaller extends ApiValidationHandler implements Caller {
     public void invoke(ResponseDto responseDto) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<String> responseEntity = REST_TEMPLATE.exchange(responseDto.getUrl(),
+        ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl(),
                 getType(),
                 getBody(responseDto),
                 String.class);
