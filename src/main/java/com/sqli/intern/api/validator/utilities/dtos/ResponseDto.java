@@ -19,17 +19,17 @@ public class ResponseDto {
     private String expectedResponse;
     private String httpStatus;
     private String actualResponse;
-    private List<String> message;
+    private List<String> messages;
     private ValidationStatus validationStatus;
 
     public void addMessage(String message) {
         initMessagesIfNull();
-        this.message.add(message);
+        this.messages.add(message);
     }
 
     private void initMessagesIfNull() {
-        if (message == null) {
-            message = new ArrayList<>();
+        if (messages == null) {
+            messages = new ArrayList<>();
         }
     }
 }

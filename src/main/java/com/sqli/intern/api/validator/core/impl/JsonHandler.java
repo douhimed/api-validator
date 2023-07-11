@@ -20,9 +20,6 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
     @Autowired
     private ObjectMapper objectMapper;
 
-    protected void addMessageToResponse(ResponseDto responseDto, String message) {
-        responseDto.addMessage(message);
-    }
 
     @Override
     public void invoke(ResponseDto responseDto) {
@@ -50,7 +47,7 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
 
     protected void addPatchMessages(ResponseDto responseDto, List<String> patchMessages) {
         for (String patchMessage : patchMessages) {
-            addMessageToResponse(responseDto, patchMessage);
+            responseDto.addMessage(patchMessage);
         }
     }
 
