@@ -15,10 +15,6 @@
             color: #4CAF50;
         }
 
-        .invalid {
-            color: #ab1829;
-        }
-
         .container {
             background-color: rgb(255, 255, 255);
             border-radius: 5px;
@@ -57,7 +53,8 @@
         .json-code {
             font-family: monospace;
             white-space: pre;
-            margin: 0;
+            margin-bottom: 0px;
+            margin-top: 0px;
         }
 
         .flex-container {
@@ -89,18 +86,6 @@
         .get-section {
             background-color: #e2f3f5;
         }
-
-        .delete-section {
-            background-color: #ffe6e6;
-        }
-
-        .put-section {
-            background-color: #fff5e6;
-        }
-
-        .post-section {
-            background-color: #e6f5e6;
-        }
     </style>
 </head>
 <body>
@@ -110,6 +95,10 @@
         <div class="section-header get-section" onclick="toggleCollapse('getSection')">
             <div class="section-title" th:text="${responseDto.type}"></div>
             <div class="section-content" th:text="${responseDto.url}">
+            </div>
+            <div>
+                    <span class="section-title badge badge-danger"
+                          th:text="${responseDto.validationStatus}"></span>
             </div>
             <div class="section-triangle"></div>
 
@@ -124,7 +113,8 @@
                     </div>
                     <div>
                         <p><strong>JSON validator status:</strong>
-                            <span class="section-title invalid" th:text="${responseDto.validationStatus}"></span></p>
+                            <span class="section-title badge badge-danger"
+                                  th:text="${responseDto.validationStatus}"></span></p>
                     </div>
                 </div>
             </div>
@@ -143,228 +133,31 @@
                 </div>
                 <div class="flex-item">
                     <div class="section-title">Report</div>
-                    <pre class="json-code">
-                    <div class="section-content" th:text="${responseDto.message}"></div>
-                    </pre>
+                    <div class="section-content">
+
+            <span th:each="message:${responseDto.messages}">
+                 <pre class="json-code">
+                <div th:text="${message}"></div>
+                 </pre>
+            </span>
+
+                    </div>
                 </div>
+
+
             </div>
 
-        </div>
-
-        <!--span></span-->    <!--span></span-->    <!--span></span-->    <!--span></span-->
-
-    </div>
-    <div class="section">
-        <div class="section-header post-section" onclick="toggleCollapse('postSection')">
-            <div class="section-title">POST</div>
-            <div class="section-triangle"></div>
-        </div>
-        <div class="section-content collapse" id="postSection">
-            <div class="subsection flex-container">
-                <div class="flex-item">
-                    <div class="section-title">URL</div>
-                    <div class="section-content">
-                        https://example.com/api/endpoint/1
-                    </div>
-                    <div>
-                        <div>Http Status</div>
-                        <div>
-                            200
-                        </div>
-                    </div>
-                    <div>
-                        <div class="section-title">Status comparison</div>
-                        <div class="section-content">
-                            VALID
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-item">
-                    <div class="section-title">Expected Response</div>
-                    <div class="section-content">
-                    <pre class="json-code">
-{
-"status": 200,
-"data": {
-"id": 1,
-"name": "John Doe"
-}
-}
-</pre>
-                    </div>
-                </div>
-                <div class="flex-item">
-                    <div class="section-title">Actual Response</div>
-                    <div class="section-content">
-<pre class="json-code">
-{
-"status": 200,
-"data": {
-"id": 1,
-"name": "John Doe"
-}
-}
-</pre>
-                    </div>
-                </div>
-                <div class="flex-item">
-                    <div class="section-title">Report</div>
-                    <div class="section-content">
-<pre class="json-code">
-{
-"success": true,
-"message": "API response matches expected response."
-}
-</pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="section">
-            <div class="section-header put-section" onclick="toggleCollapse('putSection')">
-                <div class="section-title">PUT</div>
-                <div class="section-triangle"></div>
-            </div>
-            <div class="section-content collapse" id="putSection">
-                <div class="subsection flex-container">
-                    <div class="flex-item">
-                        <div class="section-title">URL</div>
-                        <div class="section-content">
-                            https://example.com/api/endpoint/1
-                        </div>
-                        <div>
-                            <div class="section-title">Status</div>
-                            <div class="section-content">
-                                200
-                            </div>
-                        </div>
-                        <div>
-                            <div class="section-title">Status comparison</div>
-                            <div class="section-content">
-                                VALID
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-item">
-                        <div class="section-title">Expected Response</div>
-                        <div class="section-content">
-                    <pre class="json-code">
-{
-"status": 200,
-"data": {
-"id": 1,
-"name": "John Doe"
-}
-}
-</pre>
-                        </div>
-                    </div>
-                    <div class="flex-item">
-                        <div class="section-title">Actual Response</div>
-                        <div class="section-content">
-<pre class="json-code">
-{
-"status": 200,
-"data": {
-"id": 1,
-"name": "John Doe"
-}
-}
-</pre>
-                        </div>
-                    </div>
-                    <div class="flex-item">
-                        <div class="section-title">Report</div>
-                        <div class="section-content">
-<pre class="json-code">
-{
-"success": true,
-"message": "API response matches expected response."
-}
-</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <div class="section-header delete-section" onclick="toggleCollapse('deleteSection')">
-                <div class="section-title">DELETE</div>
-                <div class="section-triangle"></div>
-            </div>
-            <div class="section-content collapse" id="deleteSection">
-                <div class="subsection flex-container">
-                    <div class="flex-item">
-                        <div class="section-title">URL</div>
-                        <div class="section-content">
-                            https://example.com/api/endpoint/1
-                        </div>
-                        <div>
-                            <div class="section-title">Status</div>
-                            <div class="section-content">
-                                200
-                            </div>
-                        </div>
-                        <div>
-                            <div class="section-title">Status comparison</div>
-                            <div class="section-content">
-                                VALID
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-item">
-                        <div class="section-title">Expected Response</div>
-                        <div class="section-content">
-<pre class="json-code">
-{
-"status": 200,
-"data": {
-"id": 1,
-"name": "John Doe"
-}
-}
-</pre>
-                        </div>
-                    </div>
-                    <div class="flex-item">
-                        <div class="section-title">Actual Response</div>
-                        <div class="section-content">
-<pre class="json-code">
-{
-"status": 200,
-"data": {
-"id": 1,
-"name": "John Doe"
-}
-}
-</pre>
-                        </div>
-                    </div>
-                    <div class="flex-item">
-                        <div class="section-title">Report</div>
-                        <div class="section-content">
-<pre class="json-code">
-{
-"success": true,
-"message": "API response matches expected response."
-}
-</pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
-    <script>
-        function toggleCollapse(sectionId) {
-            var section = document.getElementById(sectionId);
-            section.classList.toggle('show');
-        }
-    </script>
+
+</div>
+<script>
+    function toggleCollapse(sectionId) {
+        var section = document.getElementById(sectionId);
+        section.classList.toggle('show');
+    }
+</script>
 </div>
 </body>
-
 </html>
