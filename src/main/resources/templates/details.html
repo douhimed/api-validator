@@ -11,10 +11,6 @@
             padding: 20px;
         }
 
-        .status {
-            color: #4CAF50;
-        }
-
         .container {
             background-color: rgb(255, 255, 255);
             border-radius: 5px;
@@ -40,7 +36,6 @@
             padding: 10px;
         }
 
-
         .section-triangle {
             width: 0;
             height: 0;
@@ -49,22 +44,11 @@
             border-left: 5px solid transparent;
         }
 
-
         .json-code {
             font-family: monospace;
             white-space: pre;
-            margin-bottom: 0px;
-            margin-top: 0px;
-        }
-
-        .flex-container {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .flex-item {
-            flex: 0.3;
-            margin-right: 3px;
+            font-size: 13px;
+            margin-bottom: 5px;
         }
 
         .section-title {
@@ -83,6 +67,11 @@
         }
 
 
+        .scrollable-section {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
         .get-section {
             background-color: #e2f3f5;
         }
@@ -94,63 +83,42 @@
     <div class="section">
         <div class="section-header get-section" onclick="toggleCollapse('getSection')">
             <div class="section-title" th:text="${responseDto.type}"></div>
-            <div class="section-content" th:text="${responseDto.url}">
-            </div>
+            <div class="section-content" th:text="${responseDto.url}"></div>
             <div>
-                    <span class="section-title badge badge-danger"
-                          th:text="${responseDto.validationStatus}"></span>
+                <span class="section-title" th:text="${responseDto.httpStatus}" id="httpStatus"></span>
+                <span class="section-title" th:text="${responseDto.validationStatus}" id="validationStatus"></span>
             </div>
-            <div class="section-triangle"></div>
 
+            <div class="section-triangle"></div>
         </div>
 
         <div class="section-content collapse" id="getSection">
-            <div class="flex-item">
-                <div class="flex-item">
-                    <div>
-                        <p><strong>HTTP Status:</strong>
-                            <span class="section-title status" th:text="${responseDto.httpStatus}"></span></p>
-                    </div>
-                    <div>
-                        <p><strong>JSON validator status:</strong>
-                            <span class="section-title badge badge-danger"
-                                  th:text="${responseDto.validationStatus}"></span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="subsection flex-container">
-                <div class="flex-item">
-                    <div class="section-title">Expected response</div>
-                    <pre class="json-code">
+            <div class="section-title">Expected response</div>
+            <div class="scrollable-section">
+                <pre class="json-code">
                     <div class="section-content" th:text="${responseDto.expectedResponse}"></div>
-                    </pre>
-                </div>
-                <div class="flex-item">
-                    <div class="section-title">Actual Response</div>
-                    <pre class="json-code">
-                    <div class="section-content" th:text="${responseDto.actualResponse}"></div>
-                    </pre>
-                </div>
-                <div class="flex-item">
-                    <div class="section-title">Report</div>
-                    <div class="section-content">
-
-            <span th:each="message:${responseDto.messages}">
-                 <pre class="json-code">
-                <div th:text="${message}"></div>
-                 </pre>
-            </span>
-
-                    </div>
-                </div>
-
-
+                </pre>
             </div>
 
+            <div class="section-title">Actual Response</div>
+            <div class="scrollable-section">
+                <pre class="json-code">
+                    <div class="section-content" th:text="${responseDto.actualResponse}"></div>
+                </pre>
+            </div>
+
+            <div th:if="${responseDto.validationStatus != 'VALID'}">
+                <div class="section-title">Report</div>
+                <div class="scrollable-section">
+                    <div class="section-content">
+                        <div th:each="message:${responseDto.messages}">
+                            <p th:text="${message}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
-
 </div>
 <script>
     function toggleCollapse(sectionId) {
@@ -158,6 +126,21 @@
         section.classList.toggle('show');
     }
 </script>
-</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var httpStatus = document.getElementById("httpStatus");
+        var validationStatus = document.getElementById("validationStatus");
+
+        if (httpStatus.innerText === "200") {
+            httpStatus.classList.add("badge", "badge-success");
+        }
+
+        if (validationStatus.innerText === "VALID") {
+            validationStatus.classList.add("badge", "badge-success");
+        } else if (validationStatus.innerText === "INVALID") {
+            validationStatus.classList.add("badge", "badge-danger");
+        }
+    });
+</script>
 </body>
 </html>
