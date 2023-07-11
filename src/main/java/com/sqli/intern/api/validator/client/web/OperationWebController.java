@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @Tag(name = "Api Controller", description = "Endpoints related to API operations")
-public class ApiController {
+public class OperationWebController {
 
     @Autowired
     private OperationService operationService;
@@ -38,8 +39,14 @@ public class ApiController {
         ResponseDto responseDto = operationService.call(requestDto);
         model.addAttribute("requestDto", requestDto);
         model.addAttribute("responseDto", responseDto);
-        return "home";
+        return "details";
     }
+
+//    @GetMapping("/details")
+//    public String details(Model model) {
+//        model.addAttribute("responseDto", new ResponseDto());
+//        return "details";
+//    }
 
 }
 

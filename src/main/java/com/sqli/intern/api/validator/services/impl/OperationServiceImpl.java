@@ -1,6 +1,7 @@
 package com.sqli.intern.api.validator.services.impl;
 
 import com.sqli.intern.api.validator.core.JsonComparator;
+import com.sqli.intern.api.validator.core.RestCaller;
 import com.sqli.intern.api.validator.core.impl.RestStrategyHandler;
 import com.sqli.intern.api.validator.services.OperationService;
 import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
