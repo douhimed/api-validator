@@ -20,6 +20,10 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
     @Autowired
     private ObjectMapper objectMapper;
 
+    protected void addMessageToResponse(ResponseDto responseDto, String message) {
+        responseDto.addMessage(message);
+    }
+
     @Override
     public void invoke(ResponseDto responseDto) {
         try {
@@ -33,7 +37,7 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
                 List<String> patchStrings = new ArrayList<>();
                 patch.forEach(node -> patchStrings.add(node.toString()));
                 responseDto.setValidationStatus(ValidationStatus.INVALID);
-                responseDto.setMessage(patchStrings);
+                addPatchMessages(responseDto, patchStrings);
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -42,6 +46,12 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
 
     public void compareJson(ResponseDto responseDto) {
         invoke(responseDto);
+    }
+
+    protected void addPatchMessages(ResponseDto responseDto, List<String> patchMessages) {
+        for (String patchMessage : patchMessages) {
+            addMessageToResponse(responseDto, patchMessage);
+        }
     }
 
 }

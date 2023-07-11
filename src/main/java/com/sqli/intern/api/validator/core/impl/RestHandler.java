@@ -1,15 +1,13 @@
 package com.sqli.intern.api.validator.core.impl;
 
 import com.sqli.intern.api.validator.core.RestCaller;
-import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;;
+import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Collections;
 
 @Component
 public abstract class RestHandler extends OperationHandler implements RestCaller {
@@ -29,7 +27,7 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
 
     @Override
     public void invoke(ResponseDto responseDto) {
-        try{
+        try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl(),
@@ -40,9 +38,9 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
             responseDto.setActualResponse(responseEntity.getBody());
             invokeNext(responseDto);
         } catch (HttpClientErrorException e) {
-            responseDto.setMessage(Collections.singletonList(e.getStatusCode().is5xxServerError()
+            responseDto.addMessage(e.getStatusCode().is5xxServerError()
                     ? ExceptionMessageEnum.SERVICE_NOT_FOUND.getMessage()
-                    : ExceptionMessageEnum.BAD_REQUEST.getMessage()));
+                    : ExceptionMessageEnum.BAD_REQUEST.getMessage());
         }
     }
 }
