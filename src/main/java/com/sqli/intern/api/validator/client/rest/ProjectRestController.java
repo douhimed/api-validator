@@ -15,10 +15,7 @@ public class ProjectRestController {
     @Autowired
     private ProjectService projectService;
 
-    /*
-    *   TODO : delete (path = "/getAll")
-     */
-    @GetMapping(path = "/getAll")
+    @GetMapping
     public ResponseEntity<List<ProjectDto>> getAllProjects() {
         List<ProjectDto> projectDto = projectService.getAllProjects();
         return new ResponseEntity<>(projectDto, HttpStatus.OK);

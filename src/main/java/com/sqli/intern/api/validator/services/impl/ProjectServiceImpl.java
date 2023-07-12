@@ -4,6 +4,7 @@ import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.repositories.ProjectRepository;
 import com.sqli.intern.api.validator.services.ProjectService;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
+import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
 import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NAME_ALREADY_EXIST;
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NULL_PROJECT;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -22,14 +26,7 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectDto> getAllProjects() {
         List<ProjectDto> projectDtos = projectRepository.findAll()
                 .stream()
-                .map(entity -> {
-                    /*
-                    * TODO : return direct the projectDto
-                    *  .map(entity -> ProjectMapper.map(entity))
-                     */
-                    ProjectDto projectDto = ProjectMapper.map(entity);
-                    return projectDto;
-                })
+                .map(ProjectMapper::map)
                 .collect(Collectors.toList());
         return projectDtos;
     }
@@ -37,14 +34,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto getProjectById(Long id) {
         return projectRepository.findById(id)
-                .map(entity -> {
-                    /**
-                     * TODO : idem
-                     */
-                    ProjectDto projectDto = ProjectMapper.map(entity);
-                    return projectDto;
-                })
-                .orElseThrow(() -> new ProjectException("Project n'existe pas"));
+                .map(ProjectMapper::map)
+                .orElseThrow(() -> new ProjectException(NULL_PROJECT));
     }
 
     @Override
@@ -52,15 +43,10 @@ public class ProjectServiceImpl implements ProjectService {
 
         Optional<ProjectEntity> checkName = projectRepository.findByName(projectDto.getName());
         if (checkName.isPresent()) {
-            throw new ProjectException("Name Already Exist!");
+            throw new ProjectException(NAME_ALREADY_EXIST);
         }
 
-        /**
-         * TODO : use the mapper ProjectMapper and add a new method from dto to entity
-         * ProjectEntity from(ProjectDto projectDto)
-         */
-        ProjectEntity projectEntity = new ProjectEntity();
-        projectEntity.setName(projectDto.getName());
+        ProjectEntity projectEntity = ProjectMapper.from(projectDto);
 
         ProjectEntity savedProject = projectRepository.save(projectEntity);
         return savedProject.getId();
@@ -71,43 +57,26 @@ public class ProjectServiceImpl implements ProjectService {
 
         Optional<ProjectEntity> checkName = projectRepository.findByName(projectDto.getName());
         if (checkName.isPresent()) {
-            throw new ProjectException("Name Already Exist!");
+            throw new ProjectException(NAME_ALREADY_EXIST);
         }
 
-        Optional<ProjectEntity> optionalProjectEntity = projectRepository.findById(id);
-
-
-        /**
-         *
-         * TODO : delete the if/else by using orElseThrow above
-         *
-         * ProjectEntity = project = projectRepository.findById(id)
-         *                 .orElseThrow(() -> new ProjectException("Project n'existe pas"));
-         *
-         */
-        if (optionalProjectEntity.isPresent()) {
-            ProjectEntity projectEntity = optionalProjectEntity.get();
-            projectEntity.setName(projectDto.getName());
-            ProjectEntity updatedProject = projectRepository.save(projectEntity);
-            return updatedProject.getId();
-        } else {
-            throw new ProjectException("Project n'existe pas");
-        }
+        return projectRepository.findById(id)
+                .map(entity -> {
+                    entity.setName(projectDto.getName());
+                    ProjectEntity updatedProject = projectRepository.save(entity);
+                    return updatedProject.getId();
+                })
+                .orElseThrow(() -> new ProjectException(NULL_PROJECT));
     }
 
     @Override
     public Long deleteProject(Long id) {
-        /**
-         * TODO : idem
-         */
-        Optional<ProjectEntity> optionalProjectEntity = projectRepository.findById(id);
 
-        if (optionalProjectEntity.isPresent()) {
-            ProjectEntity projectEntity = optionalProjectEntity.get();
-            projectRepository.delete(projectEntity);
-        } else {
-            throw new ProjectException("Project n'existe pas");
-        }
-        return id;
+        return projectRepository.findById(id)
+                .map(entity -> {
+                    projectRepository.delete(entity);
+                    return id;
+                })
+                .orElseThrow(() -> new ProjectException(NULL_PROJECT));
     }
 }

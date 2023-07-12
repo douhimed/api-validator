@@ -15,4 +15,11 @@ public final class ProjectMapper {
                 .name(projectEntity.getName())
                 .build();
     }
+
+    public static ProjectEntity from(ProjectDto projectDto) {
+        return ProjectEntity.builder()
+                .id(projectDto.getId())
+                .name(projectDto.getName())
+                .build();
+    }
 }
