@@ -23,6 +23,10 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectDto> projectDtos = projectRepository.findAll()
                 .stream()
                 .map(entity -> {
+                    /*
+                    * TODO : return direct the projectDto
+                    *  .map(entity -> ProjectMapper.map(entity))
+                     */
                     ProjectDto projectDto = ProjectMapper.map(entity);
                     return projectDto;
                 })
@@ -34,6 +38,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDto getProjectById(Long id) {
         return projectRepository.findById(id)
                 .map(entity -> {
+                    /**
+                     * TODO : idem
+                     */
                     ProjectDto projectDto = ProjectMapper.map(entity);
                     return projectDto;
                 })
@@ -48,6 +55,10 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ProjectException("Name Already Exist!");
         }
 
+        /**
+         * TODO : use the mapper ProjectMapper and add a new method from dto to entity
+         * ProjectEntity from(ProjectDto projectDto)
+         */
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setName(projectDto.getName());
 
@@ -65,6 +76,15 @@ public class ProjectServiceImpl implements ProjectService {
 
         Optional<ProjectEntity> optionalProjectEntity = projectRepository.findById(id);
 
+
+        /**
+         *
+         * TODO : delete the if/else by using orElseThrow above
+         *
+         * ProjectEntity = project = projectRepository.findById(id)
+         *                 .orElseThrow(() -> new ProjectException("Project n'existe pas"));
+         *
+         */
         if (optionalProjectEntity.isPresent()) {
             ProjectEntity projectEntity = optionalProjectEntity.get();
             projectEntity.setName(projectDto.getName());
@@ -77,6 +97,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Long deleteProject(Long id) {
+        /**
+         * TODO : idem
+         */
         Optional<ProjectEntity> optionalProjectEntity = projectRepository.findById(id);
 
         if (optionalProjectEntity.isPresent()) {
