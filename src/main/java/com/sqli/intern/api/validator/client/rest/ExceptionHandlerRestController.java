@@ -1,7 +1,7 @@
 package com.sqli.intern.api.validator.client.rest;
 
+import com.sqli.intern.api.validator.utilities.dtos.ExceptionMessageDto;
 import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
-import com.sqli.intern.api.validator.utilities.exceptions.ProjectExceptionFields;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionHandlerRestController {
     @ExceptionHandler(value = {ProjectException.class})
     public ResponseEntity<Object> handleProjectException(ProjectException e) {
-        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-        ProjectExceptionFields projectExceptionFields = new ProjectExceptionFields(
-                e.getMessage(),
-                badRequest
+        ExceptionMessageDto exceptionMessageDto = new ExceptionMessageDto(
+                e.getMessage()
         );
-        return new ResponseEntity<>(projectExceptionFields, badRequest);
+        return new ResponseEntity<>(exceptionMessageDto, HttpStatus.BAD_REQUEST);
     }
 }
