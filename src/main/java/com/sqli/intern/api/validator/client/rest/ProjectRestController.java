@@ -10,37 +10,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/project")
 public class ProjectRestController {
     @Autowired
     private ProjectService projectService;
 
-    @GetMapping(path = "projects")
+    @GetMapping(path = "/getAll")
     public ResponseEntity<List<ProjectDto>> getAllProjects() {
         List<ProjectDto> projectDto = projectService.getAllProjects();
         return new ResponseEntity<>(projectDto, HttpStatus.OK);
     }
 
-    @GetMapping(path = "project/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<ProjectDto> getProjectById(@PathVariable Long id) {
         ProjectDto projectDto = projectService.getProjectById(id);
         return new ResponseEntity<>(projectDto, HttpStatus.OK);
     }
 
-    @PostMapping(path = "project")
+    @PostMapping
     public ResponseEntity<Long> addProject(@RequestBody ProjectDto projectDto) {
-        Long projectId = projectService.addProject(projectDto.getName());
+        Long projectId = projectService.addProject(projectDto);
         return new ResponseEntity<>(projectId, HttpStatus.OK);
     }
 
-    @PutMapping(path = "project/{id}")
-    public ResponseEntity<Long> updateProject(@RequestBody ProjectDto projectDto,
-                                              @PathVariable Long id) {
-        Long projectId = projectService.updateProject(id, projectDto.getName());
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Long> updateProjectById(@RequestBody ProjectDto projectDto,
+                                                  @PathVariable Long id) {
+        Long projectId = projectService.updateProject(id, projectDto);
         return new ResponseEntity<>(projectId, HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "project/{id}")
-    public ResponseEntity<Long> deleteProject(@PathVariable Long id) {
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Long> deleteProjectById(@PathVariable Long id) {
         Long projectId = projectService.deleteProject(id);
         return new ResponseEntity<>(projectId, HttpStatus.OK);
     }

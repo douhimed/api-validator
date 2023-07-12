@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public class projectExceptionFields {
+public class ProjectExceptionFields {
     private final String message;
     private final HttpStatus httpStatus;
 }

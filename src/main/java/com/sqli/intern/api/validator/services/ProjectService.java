@@ -9,9 +9,9 @@ public interface ProjectService {
 
     ProjectDto getProjectById(Long id);
 
-    Long addProject(String name);
+    Long addProject(ProjectDto projectDto);
 
-    Long updateProject(Long id, String name);
+    Long updateProject(Long id, ProjectDto projectDto);
 
     Long deleteProject(Long id);
 }
