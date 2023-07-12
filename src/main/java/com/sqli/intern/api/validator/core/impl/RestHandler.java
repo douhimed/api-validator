@@ -1,7 +1,8 @@
 package com.sqli.intern.api.validator.core.impl;
 
 import com.sqli.intern.api.validator.core.RestCaller;
-import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;;
+import jakarta.annotation.PostConstruct;
 import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -10,10 +11,14 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+
 public abstract class RestHandler extends OperationHandler implements RestCaller {
 
     @Autowired
     public RestTemplate restTemplate;
+
+    @Autowired
+    private OperationHandler jsonHandler;
 
     public abstract HttpMethod getType();
 
@@ -42,4 +47,11 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
                     : ExceptionMessageEnum.BAD_REQUEST.getMessage());
         }
     }
+
+
+    @PostConstruct
+    public void initNext() {
+        super.setNext(jsonHandler);
+    }
+
 }

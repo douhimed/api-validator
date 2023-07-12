@@ -14,7 +14,7 @@ public abstract class OperationHandler {
 
     public void invokeNext(ResponseDto responseDto) {
         Optional.ofNullable(next)
-                .ifPresent(next -> next.invokeNext(responseDto));
+                .ifPresent(next -> next.invoke(responseDto));
     }
 
     public abstract void invoke(ResponseDto responseDto);
