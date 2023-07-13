@@ -20,6 +20,7 @@ public class CommandValidator extends JsonHandler {
         PREDICATES.put("number", ValidatorUtility::isNumber);
         PREDICATES.put("string", ValidatorUtility::isString);
         PREDICATES.put("boolean", ValidatorUtility::isBoolean);
+        PREDICATES.put("json", ValidatorUtility::isJson);
     }
 
     @Override
