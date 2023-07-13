@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 public class Configuration {
 
     @Bean
-    public ObjectMapper objectMapper(){
+    public ObjectMapper objectMapper() {
         return new ObjectMapper();
     }
 

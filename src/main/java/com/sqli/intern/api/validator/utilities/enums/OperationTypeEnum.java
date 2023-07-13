@@ -7,4 +7,17 @@ public enum OperationTypeEnum {
         return GET.name().equalsIgnoreCase(type);
     }
 
+    public static boolean isTypePost(String type) {
+        return POST.name().equalsIgnoreCase(type);
+    }
+
+    public static boolean isTypePut(String type) {
+        return PUT.name().equalsIgnoreCase(type);
+    }
+
+
+    public static boolean isTypeDelete(String type) {
+        return DELETE.name().equalsIgnoreCase(type);
+    }
+
 }
