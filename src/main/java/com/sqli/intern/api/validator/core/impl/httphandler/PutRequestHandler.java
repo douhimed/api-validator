@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PutRequestHandler extends RestHandler {
     @Autowired
-    private JsonHandler commandValidator;
+    private JsonHandler queryValidator;
 
     @Override
     public HttpMethod getType() {
@@ -25,7 +25,7 @@ public class PutRequestHandler extends RestHandler {
 
     @PostConstruct
     public void initNext() {
-        super.setNext(commandValidator);
+        super.setNext(queryValidator);
     }
 
 }
