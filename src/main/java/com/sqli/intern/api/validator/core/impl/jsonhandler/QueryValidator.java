@@ -7,9 +7,6 @@ import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 public class QueryValidator extends JsonHandler {
 
@@ -22,13 +19,15 @@ public class QueryValidator extends JsonHandler {
             if (patch.size() == 0) {
                 responseDto.setValidationStatus(ValidationStatus.VALID);
             } else {
-                List<String> patchStrings = new ArrayList<>();
-                patch.forEach(node -> patchStrings.add(node.toString()));
+                patch.forEach(node -> responseDto.addMessage(node.toString()));
                 responseDto.setValidationStatus(ValidationStatus.INVALID);
-                addPatchMessages(responseDto, patchStrings);
             }
         } catch (JsonProcessingException e) {
             responseDto.addMessage("INVALID FORMAT");
         }
     }
+    public void compareJson(ResponseDto responseDto) {
+        invoke(responseDto);
+    }
+
 }

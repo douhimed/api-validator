@@ -4,7 +4,9 @@ public enum
 ExceptionMessageEnum {
     OPERATION_NOT_ELIGIBLE("NOT VALID OPERATION"),
     SERVICE_NOT_FOUND("SERVICE NOT FOUND"),
-    BAD_REQUEST("BAD REQUEST");
+    BAD_REQUEST("BAD REQUEST"),
+    NAME_ALREADY_EXIST("Name Already Exist!"),
+    NULL_PROJECT("Project n'existe pas!");
 
     private final String message;
 
