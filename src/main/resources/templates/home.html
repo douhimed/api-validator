@@ -10,6 +10,7 @@
             animation: fadeIn 0.5s ease-in;
         }
 
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -66,6 +67,7 @@
             color: #555;
         }
 
+
         textarea {
             width: 100%;
             padding: 10px;
@@ -83,6 +85,15 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .checkLabel {
+            width: auto !important;
+        }
+
+        .check {
+            display: inline !important;
         }
 
         input[type="submit"] {
@@ -129,10 +140,6 @@
             color: #333;
         }
 
-        input, select, textarea {
-            width: 100%;
-            box-sizing: border-box;
-        }
 
         .method-get {
             color: #3ab63a;
@@ -171,22 +178,65 @@
             <textarea id="body" name="body" th:value="*{body}"></textarea>
         </div>
 
+        <div onchange="toggleExpectedField()" id="expected">
+            <label for="response">Expected Response:</label>
+            <textarea id="response" name="expectedResponse" th:text="*{expectedResponse}"></textarea>
+        </div>
+
+        <div class="form-row" id="checkBoxes">
+
+            <div class="form-check">
+                <input class="form-check-input checkLabel" name="expectedType" type="radio" value="number"
+                       id="flexCheckDefault" th:checked="*{expectedType == 'number'}">
+                <label class="form-check-label check" for="flexCheckDefault">
+                    Number
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input checkLabel" name="expectedType" type="radio" value="string"
+                       id="flexCheckChecked" th:checked="*{expectedType == 'string'}">
+                <label class="form-check-label check" for="flexCheckChecked">
+                    String
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input checkLabel" name="expectedType" type="radio" value="boolean"
+                       id="flexCheckBoolean" th:checked="*{expectedType == 'boolean'}">
+                <label class="form-check-label check" for="flexCheckBoolean">
+                    Boolean
+                </label>
+            </div>
+        </div>
+        <script>
+
+        </script>
+
         <script>
             function toggleBodyField() {
                 var methodSelect = document.getElementById("method");
                 var bodyField = document.getElementById("bodyField");
+                var responseLabel = document.getElementById("expected");
 
                 if (methodSelect.value === "POST" || methodSelect.value === "PUT") {
                     bodyField.style.display = "block";
+                    responseLabel.style.display = "none";
                 } else {
                     bodyField.style.display = "none";
+                    responseLabel.style.display = "block";
                 }
+                if (methodSelect.value === "DELETE")
+                    responseLabel.style.display = "none";
+
+                var checkBoxes = document.getElementById("checkBoxes");
+                if (methodSelect.value === "GET")
+                    checkBoxes.style.display = "none";
+                else
+                    checkBoxes.style.display = "block";
             }
+
+            document.getElementById("checkBoxes").style.display = "none";
+
         </script>
-
-        <label for="response">Expected Response:</label>
-        <textarea id="response" name="expectedResponse" th:text="*{expectedResponse}"></textarea>
-
         <input type="submit" value="Send">
     </form>
 
@@ -198,7 +248,6 @@
             <pre><span class="result" th:text="${responseDto.actualResponse}"></span></pre>
             </p>
         </div>
-
     </div>
 </div>
 </body>

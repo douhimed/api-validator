@@ -1,29 +1,21 @@
-package com.sqli.intern.api.validator.core.impl;
+package com.sqli.intern.api.validator.core.impl.jsonhandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
-import com.sqli.intern.api.validator.core.JsonComparator;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JsonHandler extends OperationHandler implements JsonComparator {
-
-    @Autowired
-    private ObjectMapper objectMapper;
+public class QueryValidator extends JsonHandler {
 
 
     @Override
-    public void invoke(ResponseDto responseDto) {
+    protected void invokeValidation(JsonNode expected, ResponseDto responseDto) {
         try {
             JsonNode currentJsonNode = objectMapper.readTree(responseDto.getActualResponse());
-            JsonNode expectedJsonNode = objectMapper.readTree(responseDto.getExpectedResponse());
-            JsonNode patch = JsonDiff.asJson(expectedJsonNode, currentJsonNode);
-
+            JsonNode patch = JsonDiff.asJson(expected, currentJsonNode);
             if (patch.size() == 0) {
                 responseDto.setValidationStatus(ValidationStatus.VALID);
             } else {
@@ -31,10 +23,9 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
                 responseDto.setValidationStatus(ValidationStatus.INVALID);
             }
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            responseDto.addMessage("INVALID FORMAT");
         }
     }
-
     public void compareJson(ResponseDto responseDto) {
         invoke(responseDto);
     }

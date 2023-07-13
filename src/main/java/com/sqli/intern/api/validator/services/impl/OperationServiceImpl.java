@@ -17,12 +17,12 @@ public class OperationServiceImpl implements OperationService {
     private RestStrategyHandler restStrategyHandler;
 
     @Autowired
-    private JsonComparator jsonComparator;
+    private JsonComparator queryValidator;
 
     @Override
     public ValidationStatus compareJson(RequestDto requestDto) {
         final ResponseDto responseDto = RequestResponseMapper.map(requestDto);
-        jsonComparator.compareJson(responseDto);
+        queryValidator.compareJson(responseDto);
         return responseDto.getValidationStatus();
     }
 

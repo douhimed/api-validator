@@ -16,6 +16,7 @@ public final class RequestResponseMapper {
                 .body(requestDto.getBody())
                 .expectedResponse(requestDto.getExpectedResponse())
                 .actualResponse(requestDto.getActualResponse())
+                .expectedType(requestDto.getExpectedType())
                 .build();
     }
 }
