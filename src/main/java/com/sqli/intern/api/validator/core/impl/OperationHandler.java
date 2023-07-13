@@ -8,10 +8,6 @@ public abstract class OperationHandler {
 
     protected OperationHandler next;
 
-    public void setNext(OperationHandler next) {
-        this.next = next;
-    }
-
     public void invokeNext(ResponseDto responseDto) {
         Optional.ofNullable(next)
                 .ifPresent(next -> next.invoke(responseDto));

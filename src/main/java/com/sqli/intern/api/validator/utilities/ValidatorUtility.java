@@ -1,35 +1,40 @@
 package com.sqli.intern.api.validator.utilities;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public final class ValidatorUtility {
 
-    public static boolean isNumber(String actualResponse) {
-        if (actualResponse == null || actualResponse.trim().length() == 0) {
+    private static final List<String> BOOLEANS = Arrays.asList("TRUE", "FALSE");
+
+    public static boolean isNumber(String value) {
+        if (StringUtils.isBlank(value))
             return false;
-        }
         try {
-            double d = Double.parseDouble(actualResponse);
+            Double.parseDouble(value);
         } catch (NumberFormatException nfe) {
             return false;
         }
         return true;
     }
 
-    public static boolean isString(String actualResponse) {
-        return actualResponse != null && !isNumber(actualResponse) && !Boolean.parseBoolean(actualResponse);
+    public static boolean isString(String value) {
+        return StringUtils.isNotBlank(value)
+                && !isNumber(value)
+                && !Boolean.parseBoolean(value);
     }
 
-    public static boolean isBoolean(String actualResponse) {
-        return actualResponse != null && (actualResponse.equalsIgnoreCase("true") || actualResponse.equalsIgnoreCase("false"));
+    public static boolean isBoolean(String value) {
+        return StringUtils.isNotBlank(value) && BOOLEANS.contains(value.toUpperCase());
     }
 
-    public static boolean isJson(String actualResponse) {
-        ObjectMapper mapper = new ObjectMapper();
+    public static boolean isJson(String value) {
         try {
-            JsonNode jsonNode = mapper.readTree(actualResponse);
+            new ObjectMapper().readTree(value);
             return true;
         } catch (JsonProcessingException e) {
             return false;

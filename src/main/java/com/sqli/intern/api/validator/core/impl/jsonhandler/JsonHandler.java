@@ -31,12 +31,6 @@ public abstract class JsonHandler extends OperationHandler implements JsonCompar
         invoke(responseDto);
     }
 
-    protected void addPatchMessages(ResponseDto responseDto, List<String> patchMessages) {
-        for (String patchMessage : patchMessages) {
-            responseDto.addMessage(patchMessage);
-        }
-    }
-
     protected abstract void invokeValidation(JsonNode expected, ResponseDto responseDto);
 
 }
