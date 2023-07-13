@@ -18,6 +18,8 @@ public class CommandValidator extends JsonHandler {
     static {
         PREDICATES = new HashMap<>();
         PREDICATES.put("number", ValidatorUtility::isNumber);
+        PREDICATES.put("string", ValidatorUtility::isString);
+        PREDICATES.put("boolean", ValidatorUtility::isBoolean);
     }
 
     @Override

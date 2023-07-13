@@ -13,4 +13,12 @@ public final class ValidatorUtility {
         }
         return true;
     }
+
+    public static boolean isString(String actualResponse) {
+        return actualResponse != null && !isNumber(actualResponse) && !Boolean.parseBoolean(actualResponse);
+    }
+
+    public static boolean isBoolean(String actualResponse) {
+        return actualResponse != null && (actualResponse.equalsIgnoreCase("true") || actualResponse.equalsIgnoreCase("false"));
+    }
 }
