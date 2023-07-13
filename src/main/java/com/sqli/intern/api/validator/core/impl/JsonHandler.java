@@ -10,10 +10,6 @@ import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 @Component
 public class JsonHandler extends OperationHandler implements JsonComparator {
 
@@ -31,10 +27,8 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
             if (patch.size() == 0) {
                 responseDto.setValidationStatus(ValidationStatus.VALID);
             } else {
-                List<String> patchStrings = new ArrayList<>();
-                patch.forEach(node -> patchStrings.add(node.toString()));
+                patch.forEach(node -> responseDto.addMessage(node.toString()));
                 responseDto.setValidationStatus(ValidationStatus.INVALID);
-                addPatchMessages(responseDto, patchStrings);
             }
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
@@ -43,12 +37,6 @@ public class JsonHandler extends OperationHandler implements JsonComparator {
 
     public void compareJson(ResponseDto responseDto) {
         invoke(responseDto);
-    }
-
-    protected void addPatchMessages(ResponseDto responseDto, List<String> patchMessages) {
-        for (String patchMessage : patchMessages) {
-            responseDto.addMessage(patchMessage);
-        }
     }
 
 }
