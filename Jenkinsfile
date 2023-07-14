@@ -18,7 +18,7 @@ pipeline {
 		}
 		stage('RUN') {
 			steps {
-			    bat "java -jar jar:jar deploy:deploy"
+			    bat "mvn spring-boot:run"
 			}
 		}
 	}
