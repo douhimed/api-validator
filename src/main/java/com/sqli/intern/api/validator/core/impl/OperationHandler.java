@@ -5,8 +5,6 @@ import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 
 public abstract class OperationHandler {
 
-    protected OperationHandler next;
-
     public void invokeNext(ResponseDto responseDto) {
         getNext().invoke(responseDto);
     }
