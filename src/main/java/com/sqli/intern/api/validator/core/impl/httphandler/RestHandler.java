@@ -25,8 +25,6 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
 
     public abstract HttpEntity getBody(ResponseDto responseDto);
 
-    public abstract JsonHandler getNext();
-
     @Override
     public void call(ResponseDto responseDto) {
         invoke(responseDto);

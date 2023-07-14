@@ -38,8 +38,11 @@
 
         .container {
             display: flex;
-            justify-content: space-between;
-            margin: 50px 10%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto;
+            max-width: 750px;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -66,7 +69,6 @@
             font-weight: bold;
             color: #555;
         }
-
 
         textarea {
             width: 100%;
@@ -156,6 +158,22 @@
         .method-delete {
             color: #ab1829;
         }
+
+        form.submitting {
+            animation: submitting 1s ease-in-out;
+        }
+
+        @keyframes submitting {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -209,7 +227,7 @@
             <div class="form-check">
                 <input class="form-check-input checkLabel" name="expectedType" type="radio" value="json"
                        id="flexCheckJson" th:checked="*{expectedType == 'json'}">
-                <label class="form-check-label check" for="flexCheckBoolean">
+                <label class="form-check-label check" for="flexCheckJson">
                     Json
                 </label>
             </div>
@@ -244,18 +262,13 @@
             document.getElementById("checkBoxes").style.display = "none";
 
         </script>
+        <script>
+            document.querySelector('form').addEventListener('submit', function () {
+                this.classList.add('submitting');
+            });
+        </script>
         <input type="submit" value="Send">
     </form>
-
-    <div class="response">
-        <h2>API Response</h2>
-        <div th:if="${responseDto != null}">
-            <p>Status: <span class="status" th:text="${responseDto.httpStatus}"></span></p>
-            <p>Response:
-            <pre><span class="result" th:text="${responseDto.actualResponse}"></span></pre>
-            </p>
-        </div>
-    </div>
 </div>
 </body>
 </html>

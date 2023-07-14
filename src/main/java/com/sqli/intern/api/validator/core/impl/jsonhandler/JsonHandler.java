@@ -8,8 +8,6 @@ import com.sqli.intern.api.validator.core.impl.OperationHandler;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 
 public abstract class JsonHandler extends OperationHandler implements JsonComparator {
 
@@ -33,4 +31,8 @@ public abstract class JsonHandler extends OperationHandler implements JsonCompar
 
     protected abstract void invokeValidation(JsonNode expected, ResponseDto responseDto);
 
+    @Override
+    public JsonHandler getNext() {
+        return null;
+    }
 }
