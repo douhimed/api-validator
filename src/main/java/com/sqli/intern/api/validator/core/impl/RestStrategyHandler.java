@@ -1,6 +1,6 @@
 package com.sqli.intern.api.validator.core.impl;
 
-import com.sqli.intern.api.validator.core.RestCaller;
+import com.sqli.intern.api.validator.core.impl.httphandler.RestHandler;
 import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,15 +9,18 @@ import org.springframework.stereotype.Component;
 public class RestStrategyHandler {
 
     @Autowired
-    private RestCaller getRequestHandler;
-    @Autowired
-    private RestCaller postRequestHandler;
-    @Autowired
-    private RestCaller putRequestHandler;
-    @Autowired
-    private RestCaller deleteRequestHandler;
+    private RestHandler getRequestHandler;
 
-    public RestCaller getCaller(String type) {
+    @Autowired
+    private RestHandler postRequestHandler;
+
+    @Autowired
+    private RestHandler putRequestHandler;
+
+    @Autowired
+    private RestHandler deleteRequestHandler;
+
+    public RestHandler getCaller(String type) {
         if (OperationTypeEnum.isTypeGet(type))
             return getRequestHandler;
         else if (OperationTypeEnum.isTypePost(type))

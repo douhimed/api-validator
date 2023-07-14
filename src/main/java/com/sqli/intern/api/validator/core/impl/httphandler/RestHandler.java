@@ -2,6 +2,7 @@ package com.sqli.intern.api.validator.core.impl.httphandler;
 
 import com.sqli.intern.api.validator.core.RestCaller;
 import com.sqli.intern.api.validator.core.impl.OperationHandler;
+import com.sqli.intern.api.validator.core.impl.jsonhandler.JsonHandler;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;;
 import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,12 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
 
     @Autowired
     public RestTemplate restTemplate;
+
+    @Autowired
+    protected JsonHandler commandValidator;
+
+    @Autowired
+    protected JsonHandler queryValidator;
 
     public abstract HttpMethod getType();
 

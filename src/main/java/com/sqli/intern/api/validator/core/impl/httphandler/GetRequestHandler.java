@@ -2,16 +2,11 @@ package com.sqli.intern.api.validator.core.impl.httphandler;
 
 import com.sqli.intern.api.validator.core.impl.jsonhandler.JsonHandler;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GetRequestHandler extends RestHandler {
-
-    @Autowired
-    private JsonHandler queryValidator;
 
     @Override
     public HttpMethod getType() {
@@ -23,10 +18,8 @@ public class GetRequestHandler extends RestHandler {
         return null;
     }
 
-
-    @PostConstruct
-    public void initNext() {
-        super.setNext(queryValidator);
+    @Override
+    public JsonHandler getNext() {
+        return queryValidator;
     }
-
 }
