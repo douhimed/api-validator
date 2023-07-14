@@ -97,7 +97,6 @@
     </dependencies>
 
     <build>
-        <finalName>api-validator</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
