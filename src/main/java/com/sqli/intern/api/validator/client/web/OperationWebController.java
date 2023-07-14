@@ -22,7 +22,7 @@ public class OperationWebController {
     @Autowired
     private OperationService operationService;
 
-    @GetMapping("/home")
+    @GetMapping
     @Operation(summary = "Home Page", description = "Renders the home page")
     public String home(ModelMap model) {
         model.addAttribute("requestDto", new RequestDto());
