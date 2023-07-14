@@ -11,14 +11,14 @@ pipeline {
 
 	stages {
 
-		stage('Build'){
+		stage('BUILD'){
 			steps {
 				bat "mvn clean install -DskipTests"
 			}
 		}
-		stage('Deploy') {
+		stage('RUN') {
 			steps {
-			    bat "mvn jar:jar deploy:deploy"
+			    bat "java -jar jar:jar deploy:deploy"
 			}
 		}
 	}
