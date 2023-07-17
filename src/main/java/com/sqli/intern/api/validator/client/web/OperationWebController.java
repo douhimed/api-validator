@@ -1,6 +1,6 @@
 package com.sqli.intern.api.validator.client.web;
 
-import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
+import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.services.OperationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @Controller
 @Tag(name = "Api Controller", description = "Endpoints related to API operations")
 public class OperationWebController {
@@ -25,7 +24,7 @@ public class OperationWebController {
     @GetMapping("/home")
     @Operation(summary = "Home Page", description = "Renders the home page")
     public String home(ModelMap model) {
-        model.addAttribute("requestDto", new RequestDto());
+        model.addAttribute("operationDto", new OperationDto());
         return "home";
     }
 
@@ -34,9 +33,9 @@ public class OperationWebController {
     @ApiResponse(responseCode = "200", description = "Response Dto with status code and actual Json",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ResponseDto.class)))
-    public String handleApiRequest(@ModelAttribute RequestDto requestDto, ModelMap model) {
-        ResponseDto responseDto = operationService.call(requestDto);
-        model.addAttribute("requestDto", requestDto);
+    public String handleApiRequest(@ModelAttribute OperationDto operationDto, ModelMap model) {
+        ResponseDto responseDto = operationService.call(operationDto);
+        model.addAttribute("operationDto", operationDto);
         model.addAttribute("responseDto", responseDto);
         return "details";
     }

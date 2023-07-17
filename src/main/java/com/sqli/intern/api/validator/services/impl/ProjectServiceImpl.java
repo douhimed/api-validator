@@ -4,7 +4,6 @@ import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.repositories.ProjectRepository;
 import com.sqli.intern.api.validator.services.ProjectService;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
-import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
 import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +23,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDto> getAllProjects() {
-        List<ProjectDto> projectDtos = projectRepository.findAll()
+        List<ProjectDto> projectDtos = projectRepository.findAllByDeletedFalse()
                 .stream()
-                .map(ProjectMapper::map)
+                .map(ProjectMapper::mapToGetAll)
                 .collect(Collectors.toList());
         return projectDtos;
     }
 
     @Override
     public ProjectDto getProjectById(Long id) {
-        return projectRepository.findById(id)
-                .map(ProjectMapper::map)
+        ProjectEntity project = projectRepository.findById(id)
+                .filter(p -> !p.isDeleted())
                 .orElseThrow(() -> new ProjectException(NULL_PROJECT));
+
+        return ProjectMapper.map(project);
     }
+
 
     @Override
     public Long addProject(ProjectDto projectDto) {
@@ -49,7 +51,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectEntity projectEntity = ProjectMapper.from(projectDto);
 
         ProjectEntity savedProject = projectRepository.save(projectEntity);
-        return savedProject.getId();
+        return savedProject.getProjectId();
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(entity -> {
                     entity.setName(projectDto.getName());
                     ProjectEntity updatedProject = projectRepository.save(entity);
-                    return updatedProject.getId();
+                    return updatedProject.getProjectId();
                 })
                 .orElseThrow(() -> new ProjectException(NULL_PROJECT));
     }
@@ -74,7 +76,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectRepository.findById(id)
                 .map(entity -> {
-                    projectRepository.delete(entity);
+                    entity.setDeleted(true);
+                    projectRepository.save(entity);
                     return id;
                 })
                 .orElseThrow(() -> new ProjectException(NULL_PROJECT));

@@ -1,7 +1,7 @@
 package com.sqli.intern.api.validator.client.rest;
 
 import com.sqli.intern.api.validator.services.OperationService;
-import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
+import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,8 +25,8 @@ public class OperationRestController {
     @ApiResponse(responseCode = "200", description = "Validation status",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ValidationStatus.class)))
-    public ValidationStatus jsonValidator(@RequestBody RequestDto requestDto) {
-        return operationService.compareJson(requestDto);
+    public ValidationStatus jsonValidator(@RequestBody OperationDto operationDto) {
+        return operationService.compareJson(operationDto);
     }
 
 }
