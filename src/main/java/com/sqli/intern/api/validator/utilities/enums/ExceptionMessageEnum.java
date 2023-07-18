@@ -6,7 +6,7 @@ ExceptionMessageEnum {
     SERVICE_NOT_FOUND("SERVICE NOT FOUND"),
     BAD_REQUEST("BAD REQUEST"),
     NAME_ALREADY_EXIST("Name Already Exist!"),
-    NULL_PROJECT("Project n'existe pas!");
+    PROJECT_NOT_FOUND("Project n'existe pas!");
 
     private final String message;
 

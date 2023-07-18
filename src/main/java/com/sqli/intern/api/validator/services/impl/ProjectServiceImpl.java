@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NAME_ALREADY_EXIST;
-import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NULL_PROJECT;
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.PROJECT_NOT_FOUND;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -32,11 +32,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDto getProjectById(Long id) {
-        ProjectEntity project = projectRepository.findById(id)
-                .filter(p -> !p.isDeleted())
-                .orElseThrow(() -> new ProjectException(NULL_PROJECT));
-
-        return ProjectMapper.map(project);
+        return projectRepository.findByIdAndDeletedFalse(id)
+                .map(ProjectMapper::map)
+                .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
     }
 
 
@@ -51,7 +49,7 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectEntity projectEntity = ProjectMapper.from(projectDto);
 
         ProjectEntity savedProject = projectRepository.save(projectEntity);
-        return savedProject.getProjectId();
+        return savedProject.getId();
     }
 
     @Override
@@ -66,9 +64,9 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(entity -> {
                     entity.setName(projectDto.getName());
                     ProjectEntity updatedProject = projectRepository.save(entity);
-                    return updatedProject.getProjectId();
+                    return updatedProject.getId();
                 })
-                .orElseThrow(() -> new ProjectException(NULL_PROJECT));
+                .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
     }
 
     @Override
@@ -80,6 +78,6 @@ public class ProjectServiceImpl implements ProjectService {
                     projectRepository.save(entity);
                     return id;
                 })
-                .orElseThrow(() -> new ProjectException(NULL_PROJECT));
+                .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
     }
 }
