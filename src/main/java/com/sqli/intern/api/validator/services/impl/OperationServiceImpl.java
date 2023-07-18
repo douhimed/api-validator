@@ -3,7 +3,7 @@ package com.sqli.intern.api.validator.services.impl;
 import com.sqli.intern.api.validator.core.JsonComparator;
 import com.sqli.intern.api.validator.core.impl.RestStrategyHandler;
 import com.sqli.intern.api.validator.services.OperationService;
-import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
+import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.mappers.RequestResponseMapper;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
@@ -20,16 +20,16 @@ public class OperationServiceImpl implements OperationService {
     private JsonComparator queryValidator;
 
     @Override
-    public ValidationStatus compareJson(RequestDto requestDto) {
-        final ResponseDto responseDto = RequestResponseMapper.map(requestDto);
+    public ValidationStatus compareJson(OperationDto operationDto) {
+        final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
         queryValidator.compareJson(responseDto);
         return responseDto.getValidationStatus();
     }
 
     @Override
-    public ResponseDto call(RequestDto requestDto) {
-        final ResponseDto responseDto = RequestResponseMapper.map(requestDto);
-        restStrategyHandler.getCaller(requestDto.getType()).call(responseDto);
+    public ResponseDto call(OperationDto operationDto) {
+        final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
+        restStrategyHandler.getCaller(operationDto.getType()).call(responseDto);
         return responseDto;
     }
 
