@@ -3,18 +3,16 @@ package com.sqli.intern.api.validator.services.impl;
 import com.sqli.intern.api.validator.services.OperationRules;
 import com.sqli.intern.api.validator.services.OperationValidator;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
-import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
+import org.springframework.stereotype.Component;
 
-import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.OPERATION_NOT_ELIGIBLE;
-
+@Component
 public class PutValidator implements OperationValidator {
     @Override
     public boolean validate(OperationDto operationDto) {
-        if (!(OperationRules.isBodyNotNull(operationDto.getBody()))
-                || OperationRules.isJsonNotValid((operationDto.getBody()))
-                || OperationRules.isExpectedResponseNull(operationDto.getExpectedResponse())
-                || OperationRules.isExpectedResponseNotValid((operationDto.getExpectedResponse())))
-            throw new OperationException(OPERATION_NOT_ELIGIBLE);
+        OperationRules.isBodyNull(operationDto.getBody());
+        OperationRules.isJsonNotValid((operationDto.getBody()));
+        OperationRules.isExpectedResponseNull(operationDto.getExpectedResponse());
+        OperationRules.isExpectedResponseTypeNotValid((operationDto.getExpectedResponse()));
         return true;
     }
 }

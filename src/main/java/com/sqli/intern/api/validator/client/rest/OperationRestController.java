@@ -61,5 +61,4 @@ public class OperationRestController {
         Long operationId = operationService.deleteOperation(id);
         return new ResponseEntity<>(operationId, HttpStatus.OK);
     }
-
 }

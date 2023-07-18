@@ -25,4 +25,5 @@ public class ExceptionHandlerRestController {
         );
         return new ResponseEntity<>(exceptionMessageDto, HttpStatus.BAD_REQUEST);
     }
+
 }

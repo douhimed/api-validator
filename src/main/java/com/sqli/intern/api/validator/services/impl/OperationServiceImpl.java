@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.*;
@@ -31,6 +30,15 @@ public class OperationServiceImpl implements OperationService {
     private JsonComparator queryValidator;
     @Autowired
     private OperationRepository operationRepository;
+
+    @Autowired
+    private GetValidator getValidator;
+    @Autowired
+    private PostValidator postValidator;
+    @Autowired
+    private PutValidator putValidator;
+    @Autowired
+    private DeleteValidator deleteValidator;
 
     @Override
     public ValidationStatus compareJson(OperationDto operationDto) {
@@ -69,23 +77,19 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public Long updateOperation(Long operationId, OperationDto operationDto) {
-        Optional<OperationEntity> operationOptional = operationRepository.findById(operationId);
-
-        if (operationOptional.isPresent()) {
-            OperationDto validatedOperationDto = validateOperation(operationDto);
-            OperationEntity operationEntity = operationOptional.get();
-            operationEntity.setUrl(validatedOperationDto.getUrl());
-            operationEntity.setType(validatedOperationDto.getType());
-            operationEntity.setBody(validatedOperationDto.getBody());
-            operationEntity.setExpectedResponse(validatedOperationDto.getExpectedResponse());
-            operationEntity.setExpectedType(validatedOperationDto.getExpectedType());
-            operationRepository.save(operationEntity);
-        } else {
-            throw new OperationException(NOT_FOUND_OPERATION);
-        }
-
-        return operationId;
+        return operationRepository.findById(operationId)
+                .map(operationEntity -> {
+                    operationEntity.setUrl(operationDto.getUrl());
+                    operationEntity.setType(operationDto.getType());
+                    operationEntity.setBody(operationDto.getBody());
+                    operationEntity.setExpectedResponse(operationDto.getExpectedResponse());
+                    operationEntity.setExpectedType(operationDto.getExpectedType());
+                    OperationEntity updatedOperation = operationRepository.save(operationEntity);
+                    return updatedOperation.getId();
+                })
+                .orElseThrow(() -> new OperationException(NOT_FOUND_OPERATION));
     }
+
 
     @Override
     public Long deleteOperation(Long id) {
@@ -98,19 +102,24 @@ public class OperationServiceImpl implements OperationService {
     }
 
     private OperationDto validateOperation(OperationDto operationDto) {
-        OperationValidator validator = switch (operationDto.getType()) {
-            case "GET" -> new GetValidator();
-            case "POST" -> new PostValidator();
-            case "PUT" -> new PutValidator();
-            case "DELETE" -> new DeleteValidator();
+        OperationValidator validator = getValidator(operationDto);
+        validator.validate(operationDto);
+        return operationDto;
+    }
+
+    public OperationValidator getValidator(OperationDto operationDto) throws OperationException {
+        String type = operationDto.getType();
+        return validateOperationType(type);
+    }
+
+    private OperationValidator validateOperationType(String type) throws OperationException {
+        return switch (type) {
+            case "GET" -> getValidator;
+            case "POST" -> postValidator;
+            case "PUT" -> putValidator;
+            case "DELETE" -> deleteValidator;
             default -> throw new OperationException(NOT_VALID_HTTP_METHOD);
         };
-
-        if (!validator.validate(operationDto)) {
-            throw new OperationException(OPERATION_NOT_ELIGIBLE);
-        }
-
-        return operationDto;
     }
 }
 

@@ -9,28 +9,20 @@ import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum
 
 public final class OperationRules {
 
-    public static boolean isBodyNotNull(String body) {
-        if (StringUtils.isBlank(body))
+    public static boolean isBodyNull(String body) {
+        if (!StringUtils.isBlank(body))
             throw new OperationException(BODY_NULL);
         return true;
     }
 
-    public static boolean isExpectedResponseNotNull(String expectedResponse) {
-        if (isExpectedResponseNull(expectedResponse))
+    public static boolean isExpectedResponseNull(String expectedResponse) {
+        if (StringUtils.isBlank(expectedResponse))
             throw new OperationException(EXPECTED_RESPONSE_NULL);
         return true;
     }
 
-    public static boolean isExpectedResponseNull(String expectedResponse) {
-        return StringUtils.isBlank(expectedResponse);
-    }
-
-    public static boolean isJsonValid(String value) {
-        return ValidatorUtility.isJson(value);
-    }
-
     public static boolean isJsonNotValid(String value) {
-        if (!isJsonValid(value))
+        if (!ValidatorUtility.isJson(value))
             throw new OperationException(NOT_VALID_JSON);
         return true;
 
@@ -48,13 +40,13 @@ public final class OperationRules {
         return true;
     }
 
-    public static boolean isExpectedResponseNotValid(String expectedResponse) {
-        if (!(isExpectedResponseValid(expectedResponse)))
+    public static boolean isExpectedResponseTypeNotValid(String expectedResponse) {
+        if (!(isExpectedResponseTypeValid(expectedResponse)))
             throw new OperationException(NOT_VALID_EXPECTED_RESPONSE_TYPE);
         return true;
     }
 
-    public static boolean isExpectedResponseValid(String expectedResponse) {
+    public static boolean isExpectedResponseTypeValid(String expectedResponse) {
         return ValidatorUtility.isString(expectedResponse)
                 || ValidatorUtility.isBoolean(expectedResponse)
                 || ValidatorUtility.isNumber(expectedResponse)
