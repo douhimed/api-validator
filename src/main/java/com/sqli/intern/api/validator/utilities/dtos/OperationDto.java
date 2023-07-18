@@ -1,17 +1,18 @@
 package com.sqli.intern.api.validator.utilities.dtos;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-public class RequestDto {
+@AllArgsConstructor
+public class OperationDto {
     private String url;
     private String type;
     private String body;
     private String expectedResponse;
     private String actualResponse;
     private String expectedType;
+
 }

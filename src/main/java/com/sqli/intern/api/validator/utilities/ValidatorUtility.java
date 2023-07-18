@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public final class ValidatorUtility {
 
@@ -39,5 +38,13 @@ public final class ValidatorUtility {
         } catch (JsonProcessingException e) {
             return false;
         }
+    }
+
+    public static boolean isNotJson(String value) {
+        return !ValidatorUtility.isJson(value);
+    }
+
+    public static boolean isVoid(String value) {
+        return StringUtils.isBlank(value);
     }
 }

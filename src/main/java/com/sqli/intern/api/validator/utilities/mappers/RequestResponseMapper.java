@@ -1,6 +1,6 @@
 package com.sqli.intern.api.validator.utilities.mappers;
 
-import com.sqli.intern.api.validator.utilities.dtos.RequestDto;
+import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 
 public final class RequestResponseMapper {
@@ -9,14 +9,14 @@ public final class RequestResponseMapper {
         throw new RuntimeException("INSTANTIATION NOT ALLOWED");
     }
 
-    public static ResponseDto map(RequestDto requestDto) {
+    public static ResponseDto map(OperationDto operationDto) {
         return ResponseDto.builder()
-                .url(requestDto.getUrl())
-                .type(requestDto.getType())
-                .body(requestDto.getBody())
-                .expectedResponse(requestDto.getExpectedResponse())
-                .actualResponse(requestDto.getActualResponse())
-                .expectedType(requestDto.getExpectedType())
+                .url(operationDto.getUrl())
+                .type(operationDto.getType())
+                .body(operationDto.getBody())
+                .expectedResponse(operationDto.getExpectedResponse())
+                .actualResponse(operationDto.getActualResponse())
+                .expectedType(operationDto.getExpectedType())
                 .build();
     }
 }

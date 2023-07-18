@@ -4,7 +4,6 @@ import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.repositories.ProjectRepository;
 import com.sqli.intern.api.validator.services.ProjectService;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
-import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
 import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
