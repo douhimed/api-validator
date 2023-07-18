@@ -12,16 +12,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name="project")
 public class ProjectEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long projectId;
+    private Long id;
     private String name;
 
     private boolean deleted;
 
     @OneToMany(mappedBy = "projectEntity")
-    private List<OperationEntity> operationEntities;
+    private List<OperationEntity> operations;
 
 }

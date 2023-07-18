@@ -11,22 +11,22 @@ public final class ProjectMapper {
 
     public static ProjectDto map(ProjectEntity projectEntity) {
         return ProjectDto.builder()
-                .id(projectEntity.getProjectId())
+                .id(projectEntity.getId())
                 .name(projectEntity.getName())
-                .operationDto(OperationMapper.fromOperationEntities(projectEntity.getOperationEntities()))
+                .operationDto(OperationMapper.fromOperationEntities(projectEntity.getOperations()))
                 .build();
     }
 
     public static ProjectDto mapToGetAll(ProjectEntity projectEntity) {
         return ProjectDto.builder()
-                .id(projectEntity.getProjectId())
+                .id(projectEntity.getId())
                 .name(projectEntity.getName())
                 .build();
     }
 
     public static ProjectEntity from(ProjectDto projectDto) {
         return ProjectEntity.builder()
-                .projectId(projectDto.getId())
+                .id(projectDto.getId())
                 .name(projectDto.getName())
                 .build();
     }

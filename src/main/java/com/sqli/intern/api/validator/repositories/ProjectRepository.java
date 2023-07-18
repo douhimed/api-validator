@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
     Optional<ProjectEntity> findByName(String name);
     List<ProjectEntity> findAllByDeletedFalse();
+    Optional<ProjectEntity> findByIdAndDeletedFalse(Long id);
+
 }
