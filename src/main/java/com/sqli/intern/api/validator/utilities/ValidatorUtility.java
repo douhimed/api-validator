@@ -40,10 +40,6 @@ public final class ValidatorUtility {
         }
     }
 
-    public static boolean isNotJson(String value) {
-        return !ValidatorUtility.isJson(value);
-    }
-
     public static boolean isVoid(String value) {
         return StringUtils.isBlank(value);
     }

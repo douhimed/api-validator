@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ExceptionHandlerRestController {
+
     @ExceptionHandler(value = {ProjectException.class})
     public ResponseEntity<Object> handleProjectException(ProjectException e) {
-        ExceptionMessageDto exceptionMessageDto = new ExceptionMessageDto(
-                e.getMessage()
-        );
-        return new ResponseEntity<>(exceptionMessageDto, HttpStatus.BAD_REQUEST);
+        return createResponseEntity(e.getMessage());
     }
 
     @ExceptionHandler(value = {OperationException.class})
     public ResponseEntity<Object> handleOperationException(OperationException operationException) {
-        ExceptionMessageDto exceptionMessageDto = new ExceptionMessageDto(
-                operationException.getMessage()
-        );
-        return new ResponseEntity<>(exceptionMessageDto, HttpStatus.BAD_REQUEST);
+        return createResponseEntity(operationException.getMessage());
     }
 
+    private ResponseEntity<Object> createResponseEntity(String message) {
+        ExceptionMessageDto exceptionMessageDto = new ExceptionMessageDto(message);
+        return new ResponseEntity<>(exceptionMessageDto, HttpStatus.BAD_REQUEST);
+    }
 }
+

@@ -22,5 +22,5 @@ public class OperationEntity {
     private String actualResponse;
     private String expectedType;
     @ManyToOne
-    private ProjectEntity projectEntity;
+    private ProjectEntity project;
 }

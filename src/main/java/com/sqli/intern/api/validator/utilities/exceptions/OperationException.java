@@ -7,7 +7,7 @@ public class OperationException extends RuntimeException {
         super(message);
     }
 
-    public OperationException(ExceptionMessageEnum message) {
-        super(String.valueOf(message));
+    public OperationException(ExceptionMessageEnum raison) {
+        super(String.valueOf(raison));
     }
 }
