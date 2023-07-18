@@ -12,6 +12,7 @@ import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -91,12 +92,16 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDto getProjectOperations(Long id) {
         ProjectEntity project = projectRepository.findById(id)
                 .filter(p -> !p.isDeleted())
-                .orElseThrow(() -> new ProjectException(NULL_PROJECT));
+                .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
 
-        List<ResponseDto> responseDtos = project.getOperationEntities().stream()
+        List<ResponseDto> responseDtos = new ArrayList<>();
+
+        project.getOperations().stream()
                 .map(OperationMapper::fromOperationEntity)
-                .map(operationService::call)
-                .collect(Collectors.toList());
+                .forEach(operation -> {
+                    ResponseDto responseDto = operationService.call(operation);
+                    responseDtos.add(responseDto);
+                });
 
         ProjectDto projectDto = ProjectMapper.map(project);
         projectDto.setResponseDto(responseDtos);
