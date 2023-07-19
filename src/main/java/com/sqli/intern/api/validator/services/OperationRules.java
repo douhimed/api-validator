@@ -1,11 +1,12 @@
 package com.sqli.intern.api.validator.services;
 
-import com.sqli.intern.api.validator.utilities.StringUtils;
 import com.sqli.intern.api.validator.utilities.ValidatorUtility;
 import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
+import org.apache.commons.lang3.StringUtils;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.*;
+
 
 public final class OperationRules {
 

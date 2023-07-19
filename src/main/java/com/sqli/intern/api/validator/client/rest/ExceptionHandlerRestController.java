@@ -8,22 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.function.Function;
+
 @ControllerAdvice
 public class ExceptionHandlerRestController {
 
+    private final Function<String, ResponseEntity<Object>> HANDLE_EXCEPTION = message -> new ResponseEntity<>(new ExceptionMessageDto(message), HttpStatus.BAD_REQUEST);
+
     @ExceptionHandler(value = {ProjectException.class})
     public ResponseEntity<Object> handleProjectException(ProjectException e) {
-        return createResponseEntity(e.getMessage());
+        return HANDLE_EXCEPTION.apply(e.getMessage());
     }
 
     @ExceptionHandler(value = {OperationException.class})
     public ResponseEntity<Object> handleOperationException(OperationException operationException) {
-        return createResponseEntity(operationException.getMessage());
+        return HANDLE_EXCEPTION.apply(operationException.getMessage());
     }
 
-    private ResponseEntity<Object> createResponseEntity(String message) {
-        ExceptionMessageDto exceptionMessageDto = new ExceptionMessageDto(message);
-        return new ResponseEntity<>(exceptionMessageDto, HttpStatus.BAD_REQUEST);
-    }
 }
 

@@ -8,6 +8,7 @@ import com.sqli.intern.api.validator.services.OperationService;
 import com.sqli.intern.api.validator.services.OperationValidator;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
 import com.sqli.intern.api.validator.utilities.mappers.OperationMapper;
 import com.sqli.intern.api.validator.utilities.mappers.RequestResponseMapper;
@@ -16,10 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.*;
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_FOUND_OPERATION;
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_VALID_HTTP_METHOD;
+
 
 @Service
 public class OperationServiceImpl implements OperationService {
@@ -78,47 +80,36 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public Long updateOperation(Long operationId, OperationDto operationDto) {
+        final OperationEntity operationEntity = getOperationEntityOrThrowsException(operationId);
         validateOperation(operationDto);
-        return operationRepository.findById(operationId)
-                .map(operationEntity -> {
-                    updateOperationEntity(operationDto, operationEntity);
-                    return operationRepository.save(operationEntity).getId();
-                })
-                .orElseThrow(() -> new OperationException(NOT_FOUND_OPERATION));
-    }
-
-    private void updateOperationEntity(OperationDto operationDto, OperationEntity operationEntity) {
-        operationEntity.setUrl(operationDto.getUrl());
-        operationEntity.setBody(operationDto.getBody());
-        operationEntity.setType(operationDto.getType());
-        operationEntity.setExpectedType(operationDto.getExpectedType());
-        operationEntity.setExpectedResponse(operationDto.getExpectedResponse());
+        OperationMapper.updateOperationEntity(operationDto, operationEntity);
+        return operationRepository.save(operationEntity).getId();
     }
 
     @Override
     public Long deleteOperation(Long id) {
-        Optional<OperationEntity> operationEntity = operationRepository.findById(id);
-        validateOperation(OperationMapper.map(operationEntity.get()));
-        return operationEntity
-                .map(entity -> {
-                    operationRepository.delete(entity);
-                    return id;
-                })
-                .orElseThrow(() -> new OperationException(NOT_FOUND_OPERATION));
+        OperationEntity operationEntity = getOperationEntityOrThrowsException(id);
+        operationRepository.delete(operationEntity);
+        return id;
     }
 
     private void validateOperation(OperationDto operationDto) {
-        getValidator(operationDto.getType()).validate(operationDto);
+        getValidator(OperationTypeEnum.from(operationDto.getType())).validate(operationDto);
     }
 
-    private OperationValidator getValidator(String type) throws OperationException {
-        return switch (type) {
-            case "GET" -> getValidator;
-            case "POST" -> postValidator;
-            case "PUT" -> putValidator;
-            case "DELETE" -> deleteValidator;
+    private OperationValidator getValidator(OperationTypeEnum method) throws OperationException {
+        return switch (method) {
+            case GET -> getValidator;
+            case POST -> postValidator;
+            case PUT -> putValidator;
+            case DELETE -> deleteValidator;
             default -> throw new OperationException(NOT_VALID_HTTP_METHOD);
         };
+    }
+
+    private OperationEntity getOperationEntityOrThrowsException(Long id) {
+        return this.operationRepository.findById(id)
+                .orElseThrow(() -> new OperationException(NOT_FOUND_OPERATION));
     }
 }
 

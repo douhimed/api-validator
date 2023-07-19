@@ -13,6 +13,14 @@ public final class ProjectMapper {
         return ProjectDto.builder()
                 .id(projectEntity.getId())
                 .name(projectEntity.getName())
+                .operationDto(OperationMapper.map(projectEntity.getOperations()))
+                .build();
+    }
+
+    public static ProjectDto mapToGetAll(ProjectEntity projectEntity) {
+        return ProjectDto.builder()
+                .id(projectEntity.getId())
+                .name(projectEntity.getName())
                 .build();
     }
 

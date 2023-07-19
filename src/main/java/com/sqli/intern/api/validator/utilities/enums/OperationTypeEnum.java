@@ -1,8 +1,10 @@
 package com.sqli.intern.api.validator.utilities.enums;
 
-import com.sqli.intern.api.validator.utilities.StringUtils;
+import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public enum OperationTypeEnum {
@@ -40,4 +42,9 @@ public enum OperationTypeEnum {
                 && VALID_OPERATIONS.contains(OperationTypeEnum.valueOf(operation.toUpperCase()));
     }
 
+    public static OperationTypeEnum from(String type) {
+        return Arrays.stream(OperationTypeEnum.values()).filter(method -> method.name().equalsIgnoreCase(type))
+                .findFirst()
+                .orElseThrow(() -> new OperationException("OPERATION NOT FOUND"));
+    }
 }

@@ -1,17 +1,18 @@
 package com.sqli.intern.api.validator.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
-@Data
+import java.io.Serializable;
+
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class OperationEntity {
+@Entity
+@Table(name = "operation")
+public class OperationEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,5 +23,7 @@ public class OperationEntity {
     private String actualResponse;
     private String expectedType;
     @ManyToOne
+    @JoinColumn(name = "project_id")
     private ProjectEntity project;
+
 }
