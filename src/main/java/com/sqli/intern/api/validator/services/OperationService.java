@@ -20,4 +20,5 @@ public interface OperationService {
     Long updateOperation(Long id, OperationDto operationDto);
 
     Long deleteOperation(Long id);
+
 }

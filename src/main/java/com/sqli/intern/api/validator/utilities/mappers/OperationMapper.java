@@ -43,5 +43,4 @@ public final class OperationMapper {
                 .map(OperationMapper::from)
                 .collect(Collectors.toList());
     }
-
 }

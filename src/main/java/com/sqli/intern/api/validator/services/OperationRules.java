@@ -7,6 +7,7 @@ import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.*;
 
+
 public final class OperationRules {
 
     public static boolean isBodyBlank(String body) {

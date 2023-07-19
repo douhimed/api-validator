@@ -19,7 +19,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.*;
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_FOUND_OPERATION;
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_VALID_HTTP_METHOD;
+
 
 @Service
 public class OperationServiceImpl implements OperationService {
