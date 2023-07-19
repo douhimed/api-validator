@@ -5,7 +5,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public enum ExpectedTypeEnum {
@@ -39,22 +38,22 @@ public enum ExpectedTypeEnum {
 
     public static boolean estPostTypeValid(String type) {
         return StringUtils.isNotBlank(type)
-                && VALID_POST_EXPECTED_TYPE.contains(OperationTypeEnum.from(type));
+                && VALID_POST_EXPECTED_TYPE.contains(ExpectedTypeEnum.from(type));
     }
 
     public static boolean estPutTypeValid(String type) {
         return StringUtils.isNotBlank(type)
-                && VALID_PUT_EXPECTED_TYPE.contains(OperationTypeEnum.from(type));
+                && VALID_PUT_EXPECTED_TYPE.contains(ExpectedTypeEnum.from(type));
     }
 
     public static boolean estGetTypeValid(String type) {
         return StringUtils.isNotBlank(type)
-                && VALID_GET_EXPECTED_TYPE.contains(OperationTypeEnum.from(type));
+                && VALID_GET_EXPECTED_TYPE.contains(ExpectedTypeEnum.from(type));
     }
 
     public static boolean estDeleteTypeValid(String type) {
         return StringUtils.isNotBlank(type)
-                && VALID_DELETE_EXPECTED_TYPE.contains(OperationTypeEnum.from(type));
+                && VALID_DELETE_EXPECTED_TYPE.contains(ExpectedTypeEnum.from(type));
     }
 
     public static ExpectedTypeEnum from(String value) {
