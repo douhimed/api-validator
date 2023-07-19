@@ -1,7 +1,22 @@
 package com.sqli.intern.api.validator.utilities.enums;
 
+import com.sqli.intern.api.validator.utilities.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum OperationTypeEnum {
-    GET, POST, DELETE, PUT;
+    GET, POST, DELETE, PUT, PATCH, OPTION;
+
+    private static final List<OperationTypeEnum> VALID_OPERATIONS;
+
+    static {
+        VALID_OPERATIONS = new ArrayList<>();
+        VALID_OPERATIONS.add(GET);
+        VALID_OPERATIONS.add(PUT);
+        VALID_OPERATIONS.add(DELETE);
+        VALID_OPERATIONS.add(POST);
+    }
 
     public static boolean isTypeGet(String type) {
         return GET.name().equalsIgnoreCase(type);
@@ -18,6 +33,11 @@ public enum OperationTypeEnum {
 
     public static boolean isTypeDelete(String type) {
         return DELETE.name().equalsIgnoreCase(type);
+    }
+
+    public static boolean isValidOperation(String operation) {
+        return StringUtils.isNotBlank(operation)
+                && VALID_OPERATIONS.contains(OperationTypeEnum.valueOf(operation.toUpperCase()));
     }
 
 }

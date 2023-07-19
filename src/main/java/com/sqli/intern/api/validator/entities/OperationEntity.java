@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="operation")
+@Table(name = "operation")
 public class OperationEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +22,8 @@ public class OperationEntity implements Serializable {
     private String expectedResponse;
     private String actualResponse;
     private String expectedType;
-
     @ManyToOne
-    @JoinColumn(name="project_id")
-    private ProjectEntity projectEntity;
+    @JoinColumn(name = "project_id")
+    private ProjectEntity project;
+
 }

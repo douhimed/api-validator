@@ -11,7 +11,7 @@ public final class OperationMapper {
         throw new RuntimeException("INSTANTIATION NOT ALLOWED");
     }
 
-    public static OperationDto fromOperationEntity(OperationEntity operationEntity) {
+    public static OperationDto map(OperationEntity operationEntity) {
         return OperationDto.builder()
                 .url(operationEntity.getUrl())
                 .body(operationEntity.getBody())
@@ -22,27 +22,25 @@ public final class OperationMapper {
                 .build();
     }
 
-    public static List<OperationDto> fromOperationEntities(List<OperationEntity> operationEntities) {
+    public static List<OperationDto> map(List<OperationEntity> operationEntities) {
         return operationEntities.stream()
-                .map(OperationMapper::fromOperationEntity)
+                .map(OperationMapper::map)
                 .collect(Collectors.toList());
     }
 
-    public static OperationEntity fromOperationDto(OperationDto operationDto) {
+    public static OperationEntity from(OperationDto operationDto) {
         return OperationEntity.builder()
                 .url(operationDto.getUrl())
                 .body(operationDto.getBody())
                 .type(operationDto.getType())
-                .actualResponse(operationDto.getActualResponse())
                 .expectedResponse(operationDto.getExpectedResponse())
                 .expectedType(operationDto.getExpectedType())
                 .build();
     }
 
-    public static List<OperationEntity> fromOperationDtos(List<OperationDto> operationDtos) {
+    public static List<OperationEntity> from(List<OperationDto> operationDtos) {
         return operationDtos.stream()
-                .map(OperationMapper::fromOperationDto)
+                .map(OperationMapper::from)
                 .collect(Collectors.toList());
     }
-
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="project")
+@Table(name = "project")
 public class ProjectEntity implements Serializable {
 
     @Id
@@ -22,7 +22,7 @@ public class ProjectEntity implements Serializable {
 
     private boolean deleted;
 
-    @OneToMany(mappedBy = "projectEntity")
+    @OneToMany(mappedBy = "project")
     private List<OperationEntity> operations;
 
 }
