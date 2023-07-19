@@ -5,5 +5,4 @@ import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 public interface OperationValidator {
     boolean validate(OperationDto operationDto);
 
-    boolean isExpectedTypeValid(String type);
 }

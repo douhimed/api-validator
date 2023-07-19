@@ -2,27 +2,15 @@ package com.sqli.intern.api.validator.services.impl;
 
 import com.sqli.intern.api.validator.services.OperationRules;
 import com.sqli.intern.api.validator.services.OperationValidator;
-import com.sqli.intern.api.validator.utilities.StringUtils;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.enums.ExpectedTypeEnum;
 import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_VALID_EXPECTED_RESPONSE_TYPE;
-import static com.sqli.intern.api.validator.utilities.enums.ExpectedTypeEnum.VOID;
 
 @Component
 public class DeleteValidator implements OperationValidator {
-
-    private static final List<ExpectedTypeEnum> VALID_EXPECTED_TYPE;
-
-    static {
-        VALID_EXPECTED_TYPE = new ArrayList<>();
-        VALID_EXPECTED_TYPE.add(VOID);
-    }
 
     @Override
     public boolean validate(OperationDto operationDto) {
@@ -32,14 +20,9 @@ public class DeleteValidator implements OperationValidator {
         return true;
     }
 
-    @Override
-    public boolean isExpectedTypeValid(String type) {
-        try {
-            ExpectedTypeEnum.valueOf(type.toUpperCase());
-        } catch (IllegalArgumentException e) {
+    private boolean isExpectedTypeValid(String type) {
+        if(!ExpectedTypeEnum.estDeleteTypeValid(type))
             throw new OperationException(NOT_VALID_EXPECTED_RESPONSE_TYPE);
-        }
-
         return true;
     }
 }
