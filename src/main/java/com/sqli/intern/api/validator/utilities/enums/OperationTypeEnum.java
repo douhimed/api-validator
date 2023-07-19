@@ -1,7 +1,7 @@
 package com.sqli.intern.api.validator.utilities.enums;
 
-import com.sqli.intern.api.validator.utilities.StringUtils;
 import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
