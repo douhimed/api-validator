@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_FOUND_OPERATION;
@@ -80,13 +79,10 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public Long updateOperation(Long operationId, OperationDto operationDto) {
+        final OperationEntity operationEntity = getOperationEntityOrThrowsException(operationId);
         validateOperation(operationDto);
-        return operationRepository.findById(operationId)
-                .map(operationEntity -> {
-                    updateOperationEntity(operationDto, operationEntity);
-                    return operationRepository.save(operationEntity).getId();
-                })
-                .orElseThrow(() -> new OperationException(NOT_FOUND_OPERATION));
+        updateOperationEntity(operationDto, operationEntity);
+        return operationRepository.save(operationEntity).getId();
     }
 
     private void updateOperationEntity(OperationDto operationDto, OperationEntity operationEntity) {
@@ -99,14 +95,9 @@ public class OperationServiceImpl implements OperationService {
 
     @Override
     public Long deleteOperation(Long id) {
-        Optional<OperationEntity> operationEntity = operationRepository.findById(id);
-        validateOperation(OperationMapper.map(operationEntity.get()));
-        return operationEntity
-                .map(entity -> {
-                    operationRepository.delete(entity);
-                    return id;
-                })
-                .orElseThrow(() -> new OperationException(NOT_FOUND_OPERATION));
+        OperationEntity operationEntity = getOperationEntityOrThrowsException(id);
+        operationRepository.delete(operationEntity);
+        return id;
     }
 
     private void validateOperation(OperationDto operationDto) {
@@ -121,6 +112,11 @@ public class OperationServiceImpl implements OperationService {
             case "DELETE" -> deleteValidator;
             default -> throw new OperationException(NOT_VALID_HTTP_METHOD);
         };
+    }
+
+    private OperationEntity getOperationEntityOrThrowsException(Long id) {
+        return this.operationRepository.findById(id)
+                .orElseThrow(() -> new OperationException(NOT_FOUND_OPERATION));
     }
 }
 
