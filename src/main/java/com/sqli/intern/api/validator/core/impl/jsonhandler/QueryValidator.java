@@ -19,18 +19,23 @@ public class QueryValidator extends JsonHandler {
         try {
             JsonNode currentJsonNode = objectMapper.readTree(responseDto.getActualResponse());
             JsonNode patch = JsonDiff.asJson(expected, currentJsonNode);
-            if (patch.size() == 0) {
+
+            boolean isValid = true;
+            for (JsonNode node : patch) {
+                if (JsonUtils.estNodeValueNotEquals(node, PATH, VALUE)) {
+                    responseDto.addMessage(node.toString());
+                    isValid = false;
+                }
+            }
+
+            if (isValid) {
                 responseDto.setValidationStatus(ValidationStatus.VALID);
             } else {
-                patch.forEach(node -> {
-                    if (JsonUtils.estNodeValueNotEquals(node, PATH, VALUE)) {
-                        responseDto.addMessage(node.toString());
-                    }
-                });
                 responseDto.setValidationStatus(ValidationStatus.INVALID);
             }
         } catch (JsonProcessingException e) {
             responseDto.addMessage("INVALID FORMAT");
+            responseDto.setValidationStatus(ValidationStatus.INVALID);
         }
     }
 
