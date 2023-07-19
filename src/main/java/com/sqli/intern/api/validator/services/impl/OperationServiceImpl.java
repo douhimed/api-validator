@@ -8,6 +8,7 @@ import com.sqli.intern.api.validator.services.OperationService;
 import com.sqli.intern.api.validator.services.OperationValidator;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.exceptions.OperationException;
 import com.sqli.intern.api.validator.utilities.mappers.OperationMapper;
 import com.sqli.intern.api.validator.utilities.mappers.RequestResponseMapper;
@@ -81,16 +82,8 @@ public class OperationServiceImpl implements OperationService {
     public Long updateOperation(Long operationId, OperationDto operationDto) {
         final OperationEntity operationEntity = getOperationEntityOrThrowsException(operationId);
         validateOperation(operationDto);
-        updateOperationEntity(operationDto, operationEntity);
+        OperationMapper.updateOperationEntity(operationDto, operationEntity);
         return operationRepository.save(operationEntity).getId();
-    }
-
-    private void updateOperationEntity(OperationDto operationDto, OperationEntity operationEntity) {
-        operationEntity.setUrl(operationDto.getUrl());
-        operationEntity.setBody(operationDto.getBody());
-        operationEntity.setType(operationDto.getType());
-        operationEntity.setExpectedType(operationDto.getExpectedType());
-        operationEntity.setExpectedResponse(operationDto.getExpectedResponse());
     }
 
     @Override
@@ -101,15 +94,15 @@ public class OperationServiceImpl implements OperationService {
     }
 
     private void validateOperation(OperationDto operationDto) {
-        getValidator(operationDto.getType()).validate(operationDto);
+        getValidator(OperationTypeEnum.from(operationDto.getType())).validate(operationDto);
     }
 
-    private OperationValidator getValidator(String type) throws OperationException {
-        return switch (type) {
-            case "GET" -> getValidator;
-            case "POST" -> postValidator;
-            case "PUT" -> putValidator;
-            case "DELETE" -> deleteValidator;
+    private OperationValidator getValidator(OperationTypeEnum method) throws OperationException {
+        return switch (method) {
+            case GET -> getValidator;
+            case POST -> postValidator;
+            case PUT -> putValidator;
+            case DELETE -> deleteValidator;
             default -> throw new OperationException(NOT_VALID_HTTP_METHOD);
         };
     }

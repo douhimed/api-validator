@@ -43,4 +43,12 @@ public final class OperationMapper {
                 .map(OperationMapper::from)
                 .collect(Collectors.toList());
     }
+
+    public static void updateOperationEntity(OperationDto operationDto, OperationEntity operationEntity) {
+        operationEntity.setUrl(operationDto.getUrl());
+        operationEntity.setBody(operationDto.getBody());
+        operationEntity.setType(operationDto.getType());
+        operationEntity.setExpectedType(operationDto.getExpectedType());
+        operationEntity.setExpectedResponse(operationDto.getExpectedResponse());
+    }
 }
