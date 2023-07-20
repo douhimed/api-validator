@@ -41,10 +41,8 @@ public class OperationRestController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Long> updateOperationById(@RequestParam Long projectId,
-                                                    @RequestBody OperationDto operationDto,
+    public ResponseEntity<Long> updateOperationById(@RequestBody OperationDto operationDto,
                                                     @PathVariable Long id) {
-        operationDto.setProjectId(projectId);
         Long operationId = operationService.updateOperation(id, operationDto);
         return new ResponseEntity<>(operationId, HttpStatus.OK);
     }

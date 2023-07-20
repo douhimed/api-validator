@@ -53,5 +53,7 @@ public final class OperationMapper {
         operationEntity.setType(operationDto.getType());
         operationEntity.setExpectedType(operationDto.getExpectedType());
         operationEntity.setExpectedResponse(operationDto.getExpectedResponse());
+        operationEntity.setActualResponse(operationDto.getActualResponse());
+        operationEntity.setProject(ProjectEntity.builder().id(operationDto.getProjectId()).build());
     }
 }
