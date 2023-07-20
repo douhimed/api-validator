@@ -45,4 +45,10 @@ public class ProjectRestController {
         Long projectId = projectService.deleteProject(id);
         return new ResponseEntity<>(projectId, HttpStatus.OK);
     }
+
+    @GetMapping(path = "operations/{id}")
+    public ResponseEntity<ProjectDto> getProjectOperations(@PathVariable Long id) {
+        ProjectDto projectDto = projectService.getProjectOperations(id);
+        return new ResponseEntity<>(projectDto, HttpStatus.OK);
+    }
 }
