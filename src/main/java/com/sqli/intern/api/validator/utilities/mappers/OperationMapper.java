@@ -1,6 +1,7 @@
 package com.sqli.intern.api.validator.utilities.mappers;
 
 import com.sqli.intern.api.validator.entities.OperationEntity;
+import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 
 import java.util.List;
@@ -34,7 +35,9 @@ public final class OperationMapper {
                 .body(operationDto.getBody())
                 .type(operationDto.getType())
                 .expectedResponse(operationDto.getExpectedResponse())
+                .actualResponse(operationDto.getActualResponse())
                 .expectedType(operationDto.getExpectedType())
+                .project(ProjectEntity.builder().id(operationDto.getProjectId()).build())
                 .build();
     }
 

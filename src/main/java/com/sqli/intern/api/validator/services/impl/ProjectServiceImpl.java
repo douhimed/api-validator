@@ -59,7 +59,8 @@ public class ProjectServiceImpl implements ProjectService {
         return id;
     }
 
-    private ProjectEntity getProjectEntityOrThrowsExceptionIfNotFound(Long id) {
+    @Override
+    public ProjectEntity getProjectEntityOrThrowsExceptionIfNotFound(Long id) {
         ProjectEntity project = projectRepository.findById(id)
                 .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
         return project;
