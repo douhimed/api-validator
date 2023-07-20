@@ -2,6 +2,7 @@ package com.sqli.intern.api.validator.core.impl.jsonhandler;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sqli.intern.api.validator.utilities.ValidatorUtility;
+import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
@@ -29,8 +30,9 @@ public class CommandValidator extends JsonHandler {
                 ? ValidationStatus.VALID
                 : ValidationStatus.INVALID;
         responseDto.setValidationStatus(status);
-        if (status.isInvalid())
-            responseDto.addMessage("Invalid type");
+        if (status.isInvalid()) {
+            responseDto.addMessage(ReportDto.createErrorMessage("INVALID TYPE"));
+        }
     }
 
 }

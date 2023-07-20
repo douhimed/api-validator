@@ -3,9 +3,13 @@ package com.sqli.intern.api.validator.core.impl.jsonhandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.flipkart.zjsonpatch.JsonDiff;
+import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class QueryValidator extends JsonHandler {
@@ -19,13 +23,24 @@ public class QueryValidator extends JsonHandler {
             if (patch.size() == 0) {
                 responseDto.setValidationStatus(ValidationStatus.VALID);
             } else {
-                patch.forEach(node -> responseDto.addMessage(node.toString()));
                 responseDto.setValidationStatus(ValidationStatus.INVALID);
+
+                List<ReportDto> reportDtos = new ArrayList<>();
+                patch.forEach(node -> {
+                    ReportDto reportDto = ReportDto.builder()
+                            .operation(node.get("op").toString())
+                            .path(node.get("path").toString())
+                            .value(node.get("value").toString())
+                            .build();
+                    reportDtos.add(reportDto);
+                });
+                responseDto.setMessages(reportDtos);
             }
         } catch (JsonProcessingException e) {
-            responseDto.addMessage("INVALID FORMAT");
+            responseDto.addMessage(ReportDto.createErrorMessage("INVALID FORMAT"));
         }
     }
+
     public void compareJson(ResponseDto responseDto) {
         invoke(responseDto);
     }

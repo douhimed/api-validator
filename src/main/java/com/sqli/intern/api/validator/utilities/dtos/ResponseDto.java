@@ -21,12 +21,12 @@ public class ResponseDto {
     private String actualResponse;
     private String expectedType;
 
-    private List<String> messages;
+    private List<ReportDto> messages;
     private ValidationStatus validationStatus;
 
-    public void addMessage(String message) {
+    public void addMessage(ReportDto reportDto) {
         initMessagesIfNull();
-        this.messages.add(message);
+        this.messages.add(reportDto);
     }
 
     private void initMessagesIfNull() {

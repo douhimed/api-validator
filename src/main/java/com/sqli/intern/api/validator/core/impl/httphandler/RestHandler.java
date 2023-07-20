@@ -3,7 +3,8 @@ package com.sqli.intern.api.validator.core.impl.httphandler;
 import com.sqli.intern.api.validator.core.RestCaller;
 import com.sqli.intern.api.validator.core.impl.OperationHandler;
 import com.sqli.intern.api.validator.core.impl.jsonhandler.JsonHandler;
-import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;;
+import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
+import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -43,9 +44,11 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
             responseDto.setActualResponse(responseEntity.getBody());
             invokeNext(responseDto);
         } catch (HttpClientErrorException e) {
-            responseDto.addMessage(e.getStatusCode().is5xxServerError()
+            String errorMessage = e.getStatusCode().is5xxServerError()
                     ? ExceptionMessageEnum.SERVICE_NOT_FOUND.getMessage()
-                    : ExceptionMessageEnum.BAD_REQUEST.getMessage());
+                    : ExceptionMessageEnum.BAD_REQUEST.getMessage();
+
+            responseDto.addMessage(ReportDto.createErrorMessage(errorMessage));
         }
     }
 
