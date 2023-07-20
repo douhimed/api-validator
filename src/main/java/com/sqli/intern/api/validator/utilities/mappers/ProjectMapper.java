@@ -13,7 +13,7 @@ public final class ProjectMapper {
         return ProjectDto.builder()
                 .id(projectEntity.getId())
                 .name(projectEntity.getName())
-                .operationDto(OperationMapper.fromOperationEntities(projectEntity.getOperations()))
+                .operationDto(OperationMapper.map(projectEntity.getOperations()))
                 .build();
     }
 

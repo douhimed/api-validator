@@ -5,8 +5,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class OperationDto {
     private String url;
     private String type;
@@ -14,4 +14,5 @@ public class OperationDto {
     private String expectedResponse;
     private String actualResponse;
     private String expectedType;
+
 }
