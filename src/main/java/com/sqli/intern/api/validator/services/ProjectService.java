@@ -15,5 +15,5 @@ public interface ProjectService {
 
     Long deleteProject(Long id);
 
-    ProjectDto getProjectOperations(Long id);
+    ProjectDto runOperationsOfProject(Long id);
 }

@@ -6,6 +6,7 @@ import com.flipkart.zjsonpatch.JsonDiff;
 import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
+import com.sqli.intern.api.validator.utilities.mappers.ReportMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,11 +28,7 @@ public class QueryValidator extends JsonHandler {
 
                 List<ReportDto> reportDtos = new ArrayList<>();
                 patch.forEach(node -> {
-                    ReportDto reportDto = ReportDto.builder()
-                            .operation(node.get("op").toString())
-                            .path(node.get("path").toString())
-                            .value(node.get("value").toString())
-                            .build();
+                    ReportDto reportDto = ReportMapper.map(node);
                     reportDtos.add(reportDto);
                 });
                 responseDto.setMessages(reportDtos);

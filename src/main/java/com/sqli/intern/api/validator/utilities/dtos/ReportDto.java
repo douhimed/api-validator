@@ -14,8 +14,6 @@ public class ReportDto {
 
     public static ReportDto createErrorMessage(String errorMsg) {
         return ReportDto.builder()
-                .operation("")
-                .path("")
                 .value(errorMsg)
                 .build();
     }

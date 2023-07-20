@@ -46,9 +46,9 @@ public class ProjectRestController {
         return new ResponseEntity<>(projectId, HttpStatus.OK);
     }
 
-    @GetMapping(path = "operations/{id}")
-    public ResponseEntity<ProjectDto> getProjectOperations(@PathVariable Long id) {
-        ProjectDto projectDto = projectService.getProjectOperations(id);
+    @GetMapping(path = "/{id}/tests")
+    public ResponseEntity<ProjectDto> runOperationsOfProject(@PathVariable Long id) {
+        ProjectDto projectDto = projectService.runOperationsOfProject(id);
         return new ResponseEntity<>(projectDto, HttpStatus.OK);
     }
 }
