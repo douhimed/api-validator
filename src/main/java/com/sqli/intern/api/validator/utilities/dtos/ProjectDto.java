@@ -16,4 +16,7 @@ public class ProjectDto {
     private String name;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<OperationDto> operationDto;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<ResponseDto> responseDto;
 }
