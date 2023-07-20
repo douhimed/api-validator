@@ -86,7 +86,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projectDto;
     }
-    private ProjectEntity getProjectEntityOrThrowsExceptionIfNotFound(Long id) {
+
+    public ProjectEntity getProjectEntityOrThrowsExceptionIfNotFound(Long id) {
         ProjectEntity project = projectRepository.findById(id)
                 .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
         return project;

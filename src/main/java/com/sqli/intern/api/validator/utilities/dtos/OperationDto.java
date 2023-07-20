@@ -14,5 +14,6 @@ public class OperationDto {
     private String expectedResponse;
     private String actualResponse;
     private String expectedType;
+    private Long projectId;
 
 }
