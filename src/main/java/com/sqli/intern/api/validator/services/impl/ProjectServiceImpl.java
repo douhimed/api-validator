@@ -67,7 +67,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectDto getProjectOperations(Long id) {
+    public ProjectDto runOperationsOfProject(Long id) {
         ProjectEntity project = projectRepository.findById(id)
                 .filter(p -> !p.isDeleted())
                 .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
