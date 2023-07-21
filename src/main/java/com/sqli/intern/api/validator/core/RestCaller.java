@@ -5,6 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public interface RestCaller {
-    void call(ResponseDto responseDto);
+    void runTest(ResponseDto responseDto);
 
 }

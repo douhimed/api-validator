@@ -14,7 +14,7 @@ public class ProjectOperationFacade {
     OperationService operationService;
 
     public Long createOperation(Long projectId, OperationDto operationDto) {
-        projectService.getProjectEntityOrThrowsExceptionIfNotFound(projectId);
+        projectService.getProjectEntityOrThrowExceptionIfNotFound(projectId);
         return operationService.addOperation(operationDto);
     }
 }

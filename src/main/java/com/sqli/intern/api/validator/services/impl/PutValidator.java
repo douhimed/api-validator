@@ -14,6 +14,7 @@ public class PutValidator implements OperationValidator {
 
     @Override
     public boolean validate(OperationDto operationDto) {
+        OperationRules.isUrlBlank(operationDto.getUrl());
         isExpectedTypeValid(operationDto.getExpectedType());
         OperationRules.isBodyBlank(operationDto.getBody());
         OperationRules.isJsonValid((operationDto.getBody()));

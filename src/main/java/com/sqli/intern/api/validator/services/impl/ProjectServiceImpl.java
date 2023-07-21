@@ -12,7 +12,6 @@ import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +30,12 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectDto> getAllProjects() {
         return projectRepository.findAllByDeletedFalse()
                 .stream()
-                .map(ProjectMapper::mapToGetAll)
+                .map(projectEntity -> {
+                    ProjectDto projectDto = new ProjectDto();
+                    projectDto.setId(projectEntity.getId());
+                    projectDto.setName(projectEntity.getName());
+                    return projectDto;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -42,17 +46,16 @@ public class ProjectServiceImpl implements ProjectService {
                 .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
     }
 
-
     @Override
     public Long addProject(ProjectDto projectDto) {
-        checkIfNameAlreaduExist(projectDto);
+        checkIfNameAlreadyExist(projectDto.getName());
         ProjectEntity projectEntity = ProjectMapper.from(projectDto);
         return projectRepository.save(projectEntity).getId();
     }
 
     @Override
     public Long updateProject(Long id, ProjectDto projectDto) {
-        ProjectEntity project = getProjectEntityOrThrowsExceptionIfNotFound(id);
+        ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
         project.setName(projectDto.getName());
         projectRepository.save(project);
         return id;
@@ -60,45 +63,34 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Long deleteProject(Long id) {
-        ProjectEntity project = getProjectEntityOrThrowsExceptionIfNotFound(id);
+        ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
         project.setDeleted(true);
         projectRepository.save(project);
         return id;
     }
 
     @Override
-    public ProjectDto runOperationsOfProject(Long id) {
-        ProjectEntity project = projectRepository.findById(id)
-                .filter(p -> !p.isDeleted())
-                .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
-
-        List<ResponseDto> responseDtos = new ArrayList<>();
-
-        project.getOperations().stream()
+    public ProjectDto runProjectTests(Long id) {
+        ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
+        List<ResponseDto> responseDtos = project.getOperations().stream()
                 .map(OperationMapper::map)
-                .forEach(operation -> {
-                    ResponseDto responseDto = operationService.call(operation);
-                    responseDtos.add(responseDto);
-                });
-
+                .map(operationService::runTest)
+                .collect(Collectors.toList());
         ProjectDto projectDto = ProjectMapper.map(project);
         projectDto.setResponseDto(responseDtos);
-
         return projectDto;
     }
 
-    public ProjectEntity getProjectEntityOrThrowsExceptionIfNotFound(Long id) {
-        ProjectEntity project = projectRepository.findById(id)
+    public ProjectEntity getProjectEntityOrThrowExceptionIfNotFound(Long id) {
+        return projectRepository.findById(id)
+                .filter(project -> !project.isDeleted())
                 .orElseThrow(() -> new ProjectException(PROJECT_NOT_FOUND));
-        return project;
     }
 
-    private void checkIfNameAlreaduExist(ProjectDto projectDto) {
-        projectRepository.findByName(projectDto.getName())
-                .ifPresent(p -> {
+    private void checkIfNameAlreadyExist(String name) {
+        projectRepository.findByName(name)
+                .ifPresent(project -> {
                     throw new ProjectException(NAME_ALREADY_EXIST);
                 });
-
     }
-
 }

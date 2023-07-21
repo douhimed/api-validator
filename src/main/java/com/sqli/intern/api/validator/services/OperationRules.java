@@ -34,4 +34,9 @@ public final class OperationRules {
             throw new OperationException(NOT_VALID_HTTP_METHOD);
         return true;
     }
+    public static boolean isUrlBlank(String url) {
+        if (StringUtils.isBlank(url))
+            throw new OperationException(URL_NULL);
+        return true;
+    }
 }
