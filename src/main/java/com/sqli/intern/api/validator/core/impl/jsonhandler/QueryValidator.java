@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class QueryValidator extends JsonHandler {
     private static final String PATH = "/op";
-    private static final String VALUE = "move";
+    private static final String MOVE = "move";
 
 
     @Override
@@ -24,25 +24,25 @@ public class QueryValidator extends JsonHandler {
         try {
             JsonNode currentJsonNode = objectMapper.readTree(responseDto.getActualResponse());
             JsonNode patch = JsonDiff.asJson(expected, currentJsonNode);
-            renseignerMessages(responseDto, patch);
-            renseignerValidationStatus(responseDto);
+            createValidationMessages(responseDto, patch);
+            setValidationStatus(responseDto);
         } catch (JsonProcessingException e) {
             responseDto.addMessage(ReportDto.createErrorMessage("INVALID FORMAT"));
             responseDto.setValidationStatus(ValidationStatus.INVALID);
         }
     }
 
-    private static void renseignerValidationStatus(ResponseDto responseDto) {
+    private static void setValidationStatus(ResponseDto responseDto) {
         responseDto.setValidationStatus(responseDto.getMessages().isEmpty()
                 ? ValidationStatus.VALID
                 : ValidationStatus.INVALID);
     }
 
-    private static void renseignerMessages(ResponseDto responseDto, JsonNode patch) {
+    private static void createValidationMessages(ResponseDto responseDto, JsonNode patch) {
 
         List<ReportDto> reportDtos = new ArrayList<>();
         for (JsonNode node : patch) {
-            if (JsonUtils.estNodeValueNotEquals(node, PATH, VALUE))
+            if (JsonUtils.isNodeValueNotEqual(node, PATH, MOVE))
                 reportDtos.add(ReportMapper.map(node));
         }
         responseDto.setMessages(reportDtos);

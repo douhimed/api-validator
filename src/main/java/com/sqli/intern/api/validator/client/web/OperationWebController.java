@@ -34,7 +34,7 @@ public class OperationWebController {
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ResponseDto.class)))
     public String handleApiRequest(@ModelAttribute OperationDto operationDto, ModelMap model) {
-        ResponseDto responseDto = operationService.call(operationDto);
+        ResponseDto responseDto = operationService.runTest(operationDto);
         model.addAttribute("operationDto", operationDto);
         model.addAttribute("responseDto", responseDto);
         return "details";

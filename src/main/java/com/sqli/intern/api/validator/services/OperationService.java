@@ -9,7 +9,7 @@ import java.util.List;
 public interface OperationService {
     ValidationStatus compareJson(OperationDto operationDto);
 
-    ResponseDto call(OperationDto operationDto);
+    ResponseDto runTest(OperationDto operationDto);
 
     List<OperationDto> getAllOperations();
 

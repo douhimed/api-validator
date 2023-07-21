@@ -1,5 +1,6 @@
 package com.sqli.intern.api.validator.utilities.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 @Getter
@@ -14,6 +15,7 @@ public class OperationDto {
     private String expectedResponse;
     private String actualResponse;
     private String expectedType;
+    @JsonIgnore
     private Long projectId;
 
 }

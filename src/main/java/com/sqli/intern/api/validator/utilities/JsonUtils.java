@@ -21,7 +21,7 @@ public final class JsonUtils {
         return node.asText();
     }
 
-    public static boolean estNodeValueNotEquals(JsonNode json, String path, String value) {
+    public static boolean isNodeValueNotEqual(JsonNode json, String path, String value) {
         return !getNodeValueAsText(json, path).equals(value);
     }
 }

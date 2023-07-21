@@ -14,8 +14,8 @@ public class DeleteValidator implements OperationValidator {
 
     @Override
     public boolean validate(OperationDto operationDto) {
+        OperationRules.isUrlBlank(operationDto.getUrl());
         isExpectedTypeValid(operationDto.getExpectedType());
-        OperationRules.isExpectedResponseBlank(operationDto.getExpectedResponse());
         OperationRules.isHttpMethodAllowed(operationDto.getType());
         return true;
     }

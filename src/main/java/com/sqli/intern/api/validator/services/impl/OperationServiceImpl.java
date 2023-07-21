@@ -51,9 +51,9 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public ResponseDto call(OperationDto operationDto) {
+    public ResponseDto runTest(OperationDto operationDto) {
         final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
-        restStrategyHandler.getCaller(operationDto.getType()).call(responseDto);
+        restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto);
         return responseDto;
     }
 
