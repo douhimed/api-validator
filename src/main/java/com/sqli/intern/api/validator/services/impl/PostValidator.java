@@ -13,10 +13,7 @@ import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum
 public class PostValidator implements OperationValidator {
 
     public boolean validate(OperationDto operationDto) {
-        OperationRules.isUrlBlank(operationDto.getUrl());
         isExpectedTypeValid(operationDto.getExpectedType());
-        OperationRules.isBodyBlank(operationDto.getBody());
-        OperationRules.isJsonValid((operationDto.getBody()));
         return true;
     }
 
