@@ -1,6 +1,5 @@
 package com.sqli.intern.api.validator.services.impl;
 
-import com.sqli.intern.api.validator.services.OperationRules;
 import com.sqli.intern.api.validator.services.OperationValidator;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.enums.ExpectedTypeEnum;
