@@ -37,7 +37,7 @@ public class ExceptionHandlerRestController {
                 .stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        return new ResponseEntity<>(new ExceptionMessageDto(errors.toString()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ExceptionMessageDto(String.join(", ", errors)), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
