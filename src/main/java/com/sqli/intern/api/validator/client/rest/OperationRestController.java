@@ -4,6 +4,7 @@ import com.sqli.intern.api.validator.services.OperationService;
 import com.sqli.intern.api.validator.services.impl.ProjectOperationFacade;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +35,14 @@ public class OperationRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> addOperation(@RequestParam Long projectId, @RequestBody OperationDto operationDto) {
+    public ResponseEntity<Long> addOperation(@RequestParam Long projectId,@Valid @RequestBody OperationDto operationDto) {
         operationDto.setProjectId(projectId);
         Long operationId = projectOperationFacade.createOperation(projectId, operationDto);
         return new ResponseEntity<>(operationId, HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Long> updateOperationById(@RequestBody OperationDto operationDto,
+    public ResponseEntity<Long> updateOperationById(@Valid @RequestBody  OperationDto operationDto,
                                                     @PathVariable Long id) {
         Long operationId = operationService.updateOperation(id, operationDto);
         return new ResponseEntity<>(operationId, HttpStatus.OK);

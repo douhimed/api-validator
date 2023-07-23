@@ -1,6 +1,5 @@
 package com.sqli.intern.api.validator.services.impl;
 
-import com.sqli.intern.api.validator.services.OperationRules;
 import com.sqli.intern.api.validator.services.OperationValidator;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.enums.ExpectedTypeEnum;
@@ -14,10 +13,7 @@ public class PutValidator implements OperationValidator {
 
     @Override
     public boolean validate(OperationDto operationDto) {
-        OperationRules.isUrlBlank(operationDto.getUrl());
         isExpectedTypeValid(operationDto.getExpectedType());
-        OperationRules.isBodyBlank(operationDto.getBody());
-        OperationRules.isJsonValid((operationDto.getBody()));
         return true;
     }
 
