@@ -21,7 +21,7 @@ public class OperationDto {
     @NotBlank(message = "Body must not be blank")
     @JsonValid(message = "Body not valid")
     private String body;
-    @JsonValid
+    @JsonValid(message = "Expected response not valid")
     private String expectedResponse;
     private String actualResponse;
     private String expectedType;

@@ -8,7 +8,10 @@ import jakarta.validation.ConstraintValidatorContext;
 public class HttpMethodValidator implements ConstraintValidator<HttpMethodValid, String> {
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return OperationTypeEnum.isValidOperation(value);
-
+        try {
+            return OperationTypeEnum.isValidOperation(value);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 }
