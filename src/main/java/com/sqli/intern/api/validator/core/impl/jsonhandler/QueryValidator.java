@@ -2,12 +2,12 @@ package com.sqli.intern.api.validator.core.impl.jsonhandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
 import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.JsonUtils;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
-import com.sqli.intern.api.validator.utilities.mappers.ReportMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -43,9 +43,14 @@ public class QueryValidator extends JsonHandler {
         List<ReportDto> reportDtos = new ArrayList<>();
         for (JsonNode node : patch) {
             if (JsonUtils.isNodeValueNotEqual(node, PATH, MOVE))
-                reportDtos.add(ReportMapper.map(node));
+                reportDtos.add(mapJsonToReportDto(node));
         }
         responseDto.setMessages(reportDtos);
+    }
+
+    private static ReportDto mapJsonToReportDto(JsonNode node) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.convertValue(node, ReportDto.class);
     }
 
     public void compareJson(ResponseDto responseDto) {
