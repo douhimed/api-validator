@@ -1,5 +1,7 @@
 package com.sqli.intern.api.validator.utilities.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -8,13 +10,20 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportDto {
+    @JsonProperty("op")
     private String operation;
+    @JsonProperty("path")
     private String path;
-    private String value;
+    @JsonProperty("value")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private ValueDto value;
+
 
     public static ReportDto createErrorMessage(String errorMsg) {
         return ReportDto.builder()
-                .value(errorMsg)
+                .value(ValueDto.builder()
+                        .msg(errorMsg)
+                        .build())
                 .build();
     }
 }
