@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/operation")
 @Tag(name = "Operation Rest Controller", description = "Endpoints related to API Validation")
