@@ -12,13 +12,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OperationDto {
+    private Long id;
     @NotBlank(message = "Url must not be blank")
     private String url;
 
     @HttpMethodValid
     private String type;
 
-    @NotBlank(message = "Body must not be blank")
     @JsonValid(message = "Body not valid")
     private String body;
     @JsonValid(message = "Expected response not valid")

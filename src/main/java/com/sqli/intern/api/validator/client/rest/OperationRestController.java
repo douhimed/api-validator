@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/operation")
+@CrossOrigin("*")
 @Tag(name = "Operation Rest Controller", description = "Endpoints related to API Validation")
 public class OperationRestController {
     @Autowired
