@@ -16,6 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/operation")
+@CrossOrigin("*")
 @Tag(name = "Operation Rest Controller", description = "Endpoints related to API Validation")
 public class OperationRestController {
     @Autowired

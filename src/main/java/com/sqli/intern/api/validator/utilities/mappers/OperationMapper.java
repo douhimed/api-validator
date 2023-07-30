@@ -14,6 +14,7 @@ public final class OperationMapper {
 
     public static OperationDto map(OperationEntity operationEntity) {
         return OperationDto.builder()
+                .id(operationEntity.getId())
                 .url(operationEntity.getUrl())
                 .body(operationEntity.getBody())
                 .type(operationEntity.getType())
@@ -54,6 +55,5 @@ public final class OperationMapper {
         operationEntity.setExpectedType(operationDto.getExpectedType());
         operationEntity.setExpectedResponse(operationDto.getExpectedResponse());
         operationEntity.setActualResponse(operationDto.getActualResponse());
-        operationEntity.setProject(ProjectEntity.builder().id(operationDto.getProjectId()).build());
     }
 }
