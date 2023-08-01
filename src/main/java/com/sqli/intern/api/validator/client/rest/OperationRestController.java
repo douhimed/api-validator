@@ -49,6 +49,13 @@ public class OperationRestController {
         return new ResponseEntity<>(operationId, HttpStatus.OK);
     }
 
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<Long> updateExcpectedResponse(@RequestBody  String newExcpectedResponse,
+                                                    @PathVariable Long id) {
+        Long operationId = operationService.updateExcpectedResponse(id,newExcpectedResponse);
+        return new ResponseEntity<>(operationId, HttpStatus.OK);
+    }
+
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Long> deleteOperationById(@PathVariable Long id) {
         Long operationId = operationService.deleteOperation(id);

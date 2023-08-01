@@ -11,6 +11,7 @@ public final class RequestResponseMapper {
 
     public static ResponseDto map(OperationDto operationDto) {
         return ResponseDto.builder()
+                .id(operationDto.getId())
                 .url(operationDto.getUrl())
                 .type(operationDto.getType())
                 .body(operationDto.getBody())
