@@ -10,8 +10,9 @@ import java.util.List;
 public interface OperationService {
     ValidationStatus compareJson(OperationDto operationDto);
 
-    ResponseDto runTest(OperationDto operationDto);
-    ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider);
+
+    ResponseDto runTest(OperationDto operationDto) throws InstantiationException;
+    ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException;
 
     List<OperationDto> getAllOperations();
 

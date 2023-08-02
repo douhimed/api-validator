@@ -33,7 +33,7 @@ public class OperationWebController {
     @ApiResponse(responseCode = "200", description = "Response Dto with status code and actual Json",
             content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = ResponseDto.class)))
-    public String handleApiRequest(@ModelAttribute OperationDto operationDto, ModelMap model) {
+    public String handleApiRequest(@ModelAttribute OperationDto operationDto, ModelMap model) throws InstantiationException {
         ResponseDto responseDto = operationService.runTest(operationDto);
         model.addAttribute("operationDto", operationDto);
         model.addAttribute("responseDto", responseDto);

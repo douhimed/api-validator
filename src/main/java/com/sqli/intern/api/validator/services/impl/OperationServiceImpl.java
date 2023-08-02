@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_FOUND_OPERATION;
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_VALID_HTTP_METHOD;
@@ -52,14 +51,14 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public ResponseDto runTest(OperationDto operationDto) {
+    public ResponseDto runTest(OperationDto operationDto) throws InstantiationException {
         final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
         restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto);
         return responseDto;
     }
 
     @Override
-    public ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) {
+    public ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException {
         final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
         restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto, authHeaderProvider);
         return responseDto;
@@ -70,7 +69,7 @@ public class OperationServiceImpl implements OperationService {
         return operationRepository.findAll()
                 .stream()
                 .map(OperationMapper::map)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

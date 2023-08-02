@@ -15,7 +15,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NAME_ALREADY_EXIST;
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.PROJECT_NOT_FOUND;
@@ -40,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
                     projectDto.setName(projectEntity.getName());
                     return projectDto;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -79,8 +78,14 @@ public class ProjectServiceImpl implements ProjectService {
         final AuthHeaderProvider authHeaderProvider = setAuthHeaderProvider(project);
         List<ResponseDto> responseDtos = project.getOperations().stream()
                 .map(OperationMapper::map)
-                .map(operation -> operationService.runTest(operation, authHeaderProvider))
-                .collect(Collectors.toList());
+                .map(operation -> {
+                    try {
+                        return operationService.runTest(operation, authHeaderProvider);
+                    } catch (InstantiationException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .toList();
         ProjectDto projectDto = ProjectMapper.map(project);
         projectDto.setResponseDto(responseDtos);
         return projectDto;

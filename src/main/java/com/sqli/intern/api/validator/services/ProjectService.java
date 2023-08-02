@@ -1,6 +1,5 @@
 package com.sqli.intern.api.validator.services;
 
-import com.sqli.intern.api.validator.authentication.AuthHeaderProvider;
 import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
 
@@ -17,7 +16,6 @@ public interface ProjectService {
 
     Long deleteProject(Long id);
 
-//    ProjectDto runProjectTests(Long id);
     ProjectDto runProjectTests(Long id);
 
     ProjectEntity getProjectEntityOrThrowExceptionIfNotFound(Long id);

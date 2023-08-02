@@ -3,10 +3,12 @@ package com.sqli.intern.api.validator.utilities.mappers;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.INSTANTIATION_NOT_ALLOWED;
+
 public final class RequestResponseMapper {
 
-    private RequestResponseMapper() {
-        throw new RuntimeException("INSTANTIATION NOT ALLOWED");
+    private RequestResponseMapper() throws InstantiationException {
+        throw new InstantiationException(INSTANTIATION_NOT_ALLOWED.getMessage());
     }
 
     public static ResponseDto map(OperationDto operationDto) {

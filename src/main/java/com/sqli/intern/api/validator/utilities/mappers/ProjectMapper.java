@@ -3,10 +3,12 @@ package com.sqli.intern.api.validator.utilities.mappers;
 import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
 
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.INSTANTIATION_NOT_ALLOWED;
+
 public final class ProjectMapper {
 
-    private ProjectMapper() {
-        throw new RuntimeException("INSTANTIATION NOT ALLOWED");
+    private ProjectMapper() throws InstantiationException {
+        throw new InstantiationException(INSTANTIATION_NOT_ALLOWED.getMessage());
     }
 
     public static ProjectDto map(ProjectEntity projectEntity) {
