@@ -1,5 +1,6 @@
 package com.sqli.intern.api.validator.services.impl;
 
+import com.sqli.intern.api.validator.authentication.AuthHeaderProvider;
 import com.sqli.intern.api.validator.core.JsonComparator;
 import com.sqli.intern.api.validator.core.impl.RestStrategyHandler;
 import com.sqli.intern.api.validator.entities.OperationEntity;
@@ -54,6 +55,13 @@ public class OperationServiceImpl implements OperationService {
     public ResponseDto runTest(OperationDto operationDto) {
         final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
         restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto);
+        return responseDto;
+    }
+
+    @Override
+    public ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) {
+        final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
+        restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto, authHeaderProvider);
         return responseDto;
     }
 
