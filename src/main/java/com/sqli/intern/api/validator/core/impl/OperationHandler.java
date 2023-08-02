@@ -6,8 +6,8 @@ import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 
 public abstract class OperationHandler {
 
-    public void invokeNext(ResponseDto responseDto) {
-        getNext().invoke(responseDto);
+    public void invokeNext(ResponseDto responseDto, AuthHeaderProvider authHeaderProvider) {
+        getNext().invoke(responseDto,authHeaderProvider);
     }
 
     public abstract JsonHandler getNext();

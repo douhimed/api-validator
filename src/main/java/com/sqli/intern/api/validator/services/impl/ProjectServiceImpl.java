@@ -15,7 +15,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NAME_ALREADY_EXIST;
@@ -77,10 +76,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto runProjectTests(Long id) {
         ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
-        final AuthHeaderProvider AUTH_HEADER_PROVIDER = createAuthHeaderProvider(project);
+        final AuthHeaderProvider authHeaderProvider = createAuthHeaderProvider(project);
         List<ResponseDto> responseDtos = project.getOperations().stream()
                 .map(OperationMapper::map)
-                .map(operation -> operationService.runTest(operation, AUTH_HEADER_PROVIDER))
+                .map(operation -> operationService.runTest(operation, authHeaderProvider))
                 .collect(Collectors.toList());
         ProjectDto projectDto = ProjectMapper.map(project);
         projectDto.setResponseDto(responseDtos);
@@ -88,9 +87,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private AuthHeaderProvider createAuthHeaderProvider(ProjectEntity project) {
-        String projectPrefix = project.getName();
-        String username = Objects.requireNonNull(env.getProperty("myapp.username")).replace("myapp", projectPrefix);
-        String password = Objects.requireNonNull(env.getProperty("myapp.password")).replace("myapp", projectPrefix);
+        String username = env.getProperty(project.getName() + ".username");
+        String password = env.getProperty(project.getName() + ".password");
         return new AuthHeaderProvider(username, password);
     }
 
