@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseDto {
-
+    private Long id;
     private String url;
     private String type;
     private String body;

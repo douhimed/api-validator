@@ -20,6 +20,7 @@ public interface OperationService {
     Long addOperation(OperationDto operationDto);
 
     Long updateOperation(Long id, OperationDto operationDto);
+    Long updateExcpectedResponse(Long id,String newExcpectedResponse);
 
     Long deleteOperation(Long id);
 
