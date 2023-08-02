@@ -56,7 +56,7 @@ public class QueryValidator extends JsonHandler {
 
     @Override
     public void compareJson(ResponseDto responseDto) {
-        invoke(responseDto);
+        invoke(responseDto, null);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.sqli.intern.api.validator.services.impl;
 
+import com.sqli.intern.api.validator.authentication.AuthHeaderProvider;
 import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.repositories.ProjectRepository;
 import com.sqli.intern.api.validator.services.OperationService;
@@ -10,6 +11,7 @@ import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
 import com.sqli.intern.api.validator.utilities.mappers.OperationMapper;
 import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private OperationService operationService;
+    @Autowired
+    Environment env;
 
     @Override
     public List<ProjectDto> getAllProjects() {
@@ -71,14 +75,22 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto runProjectTests(Long id) {
         ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
+        final AuthHeaderProvider authHeaderProvider = setAuthHeaderProvider(project);
         List<ResponseDto> responseDtos = project.getOperations().stream()
                 .map(OperationMapper::map)
-                .map(operationService::runTest)
+                .map(operation -> operationService.runTest(operation, authHeaderProvider))
                 .toList();
         ProjectDto projectDto = ProjectMapper.map(project);
         projectDto.setResponseDto(responseDtos);
         return projectDto;
     }
+
+    private AuthHeaderProvider setAuthHeaderProvider(ProjectEntity project) {
+        String username = env.getProperty(project.getName() + ".username");
+        String password = env.getProperty(project.getName() + ".password");
+        return new AuthHeaderProvider(username, password);
+    }
+
 
     public ProjectEntity getProjectEntityOrThrowExceptionIfNotFound(Long id) {
         return projectRepository.findById(id)

@@ -2,6 +2,7 @@ package com.sqli.intern.api.validator.utilities.dtos;
 
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,5 +34,11 @@ public class ResponseDto {
         if (messages == null) {
             messages = new ArrayList<>();
         }
+    }
+
+    public String getExpectedType() {
+        return StringUtils.isBlank(expectedType)
+                ? "json"
+                : expectedType.trim().toLowerCase();
     }
 }

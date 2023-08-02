@@ -17,6 +17,6 @@ public interface ProjectService {
     Long deleteProject(Long id);
 
     ProjectDto runProjectTests(Long id);
-    
+
     ProjectEntity getProjectEntityOrThrowExceptionIfNotFound(Long id);
 }

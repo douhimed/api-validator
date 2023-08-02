@@ -26,7 +26,8 @@ public class CommandValidator extends JsonHandler {
 
     @Override
     protected void invokeValidation(JsonNode patch, ResponseDto responseDto) {
-        ValidationStatus status = PREDICATES.get(responseDto.getExpectedType()).test(responseDto.getActualResponse())
+        Predicate<String> predicate = PREDICATES.getOrDefault(responseDto.getExpectedType(), ValidatorUtility::isJson);
+        ValidationStatus status = predicate.test(responseDto.getActualResponse())
                 ? ValidationStatus.VALID
                 : ValidationStatus.INVALID;
         responseDto.setValidationStatus(status);
