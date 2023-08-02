@@ -16,22 +16,22 @@ public class AuthHeaderProvider {
         this.password = password;
     }
 
-    public void createAuthHeader(HttpHeaders headers) {
+    public void setAuthHeader(HttpHeaders headers) {
         String auth = username + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
         String authHeader = "Basic " + new String(encodedAuth);
         headers.set("Authorization", authHeader);
     }
 
-    public void createDefaultHttpHeaders(HttpHeaders headers) {
+    public void setDefaultHttpHeaders(HttpHeaders headers) {
         headers.set("Authorization", "Basic <base64-encoded-username-and-password>");
     }
 
-    public HttpHeaders createHeader() {
+    public HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        if (isAuthRequired()) createAuthHeader(headers);
-        else createDefaultHttpHeaders(headers);
+        if (isAuthRequired()) setAuthHeader(headers);
+        else setDefaultHttpHeaders(headers);
         return headers;
     }
 

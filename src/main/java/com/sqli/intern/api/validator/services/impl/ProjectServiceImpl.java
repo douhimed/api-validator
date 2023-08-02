@@ -76,7 +76,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto runProjectTests(Long id) {
         ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
-        final AuthHeaderProvider authHeaderProvider = createAuthHeaderProvider(project);
+        final AuthHeaderProvider authHeaderProvider = setAuthHeaderProvider(project);
         List<ResponseDto> responseDtos = project.getOperations().stream()
                 .map(OperationMapper::map)
                 .map(operation -> operationService.runTest(operation, authHeaderProvider))
@@ -86,7 +86,7 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDto;
     }
 
-    private AuthHeaderProvider createAuthHeaderProvider(ProjectEntity project) {
+    private AuthHeaderProvider setAuthHeaderProvider(ProjectEntity project) {
         String username = env.getProperty(project.getName() + ".username");
         String password = env.getProperty(project.getName() + ".password");
         return new AuthHeaderProvider(username, password);

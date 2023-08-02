@@ -48,7 +48,7 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl().trim(),
                     getType(),
-                    new HttpEntity<>(getBody(responseDto), authHeaderProvider.createHeader()),
+                    new HttpEntity<>(getBody(responseDto), authHeaderProvider.setHeader()),
                     String.class);
             responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
             responseDto.setActualResponse(responseEntity.getBody());
