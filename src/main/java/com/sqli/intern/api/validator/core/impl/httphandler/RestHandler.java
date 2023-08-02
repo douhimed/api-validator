@@ -26,7 +26,7 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
 
     public abstract HttpMethod getType();
 
-    public abstract HttpEntity getBody(ResponseDto responseDto);
+    public abstract <T>HttpEntity<T> getBody(ResponseDto responseDto);
 
     @Override
     public void runTest(ResponseDto responseDto) {

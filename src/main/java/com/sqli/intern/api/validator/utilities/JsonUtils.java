@@ -7,6 +7,9 @@ import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NOT_VALUE_NODE;
 
 public final class JsonUtils {
+    private JsonUtils() {
+        throw new AssertionError("JsonUtils should not be instantiated.");
+    }
     public static String getNodeValueAsText(JsonNode json, String path) {
         JsonNode node = json.at(path);
 

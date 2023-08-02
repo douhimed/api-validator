@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class ValidatorUtility {
+    private ValidatorUtility(){
+        throw new AssertionError("ValidatorUtility should not be instantiated.");
+    }
 
     private static final List<String> BOOLEANS = Arrays.asList("TRUE", "FALSE");
 

@@ -10,6 +10,10 @@ import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum
 
 public final class OperationRules {
 
+    private OperationRules(){
+        throw new AssertionError("OperationRules should not be instantiated.");
+    }
+
     public static boolean isBodyBlank(String body) {
         if (StringUtils.isBlank(body))
             throw new OperationException(BODY_NULL);

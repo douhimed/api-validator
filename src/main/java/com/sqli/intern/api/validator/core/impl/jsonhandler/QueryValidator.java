@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 public class QueryValidator extends JsonHandler {
+
     private static final String PATH = "/op";
     private static final String MOVE = "move";
 
@@ -53,6 +54,7 @@ public class QueryValidator extends JsonHandler {
         return objectMapper.convertValue(node, ReportDto.class);
     }
 
+    @Override
     public void compareJson(ResponseDto responseDto) {
         invoke(responseDto);
     }

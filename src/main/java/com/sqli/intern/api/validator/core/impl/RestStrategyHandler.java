@@ -5,6 +5,8 @@ import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.INSTANTIATION_NOT_ALLOWED;
+
 @Component
 public class RestStrategyHandler {
 
@@ -20,7 +22,7 @@ public class RestStrategyHandler {
     @Autowired
     private RestHandler deleteRequestHandler;
 
-    public RestHandler getCaller(String type) {
+    public RestHandler getCaller(String type) throws InstantiationException {
         if (OperationTypeEnum.isTypeGet(type))
             return getRequestHandler;
         else if (OperationTypeEnum.isTypePost(type))
@@ -29,6 +31,6 @@ public class RestStrategyHandler {
             return putRequestHandler;
         else if (OperationTypeEnum.isTypeDelete(type))
             return deleteRequestHandler;
-        throw new RuntimeException("NOT ALLOWED OPERATION");
+        throw new InstantiationException("NOT ALLOWED OPERATION");
     }
 }

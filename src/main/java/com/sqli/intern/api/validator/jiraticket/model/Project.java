@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.jiraTicket.model;
+package com.sqli.intern.api.validator.jiraticket.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,18 +8,18 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
-public class JiraPayload {
+public class Project {
 
-    @JsonProperty("fields")
-    private Fields fields;
+    @JsonProperty("key")
+    private String key;
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(JiraPayload.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        sb.append("fields");
+        sb.append(Project.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
+        sb.append("key");
         sb.append('=');
-        sb.append(((this.fields == null) ? "<null>" : this.fields));
+        sb.append(((this.key == null) ? "<null>" : this.key));
         sb.append(',');
         if (sb.charAt((sb.length() - 1)) == ',') {
             sb.setCharAt((sb.length() - 1), ']');

@@ -5,11 +5,12 @@ import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.INSTANTIATION_NOT_ALLOWED;
 
 public final class OperationMapper {
-    private OperationMapper() {
-        throw new RuntimeException("INSTANTIATION NOT ALLOWED");
+    private OperationMapper() throws InstantiationException {
+        throw new InstantiationException(INSTANTIATION_NOT_ALLOWED.getMessage());
     }
 
     public static OperationDto map(OperationEntity operationEntity) {
@@ -27,7 +28,7 @@ public final class OperationMapper {
     public static List<OperationDto> map(List<OperationEntity> operationEntities) {
         return operationEntities.stream()
                 .map(OperationMapper::map)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static OperationEntity from(OperationDto operationDto) {
@@ -45,7 +46,7 @@ public final class OperationMapper {
     public static List<OperationEntity> from(List<OperationDto> operationDtos) {
         return operationDtos.stream()
                 .map(OperationMapper::from)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public static void updateOperationEntity(OperationDto operationDto, OperationEntity operationEntity) {
