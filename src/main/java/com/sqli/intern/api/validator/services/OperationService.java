@@ -1,5 +1,6 @@
 package com.sqli.intern.api.validator.services;
 
+import com.sqli.intern.api.validator.authentication.AuthHeaderProvider;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
@@ -10,6 +11,7 @@ public interface OperationService {
     ValidationStatus compareJson(OperationDto operationDto);
 
     ResponseDto runTest(OperationDto operationDto);
+    ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider);
 
     List<OperationDto> getAllOperations();
 

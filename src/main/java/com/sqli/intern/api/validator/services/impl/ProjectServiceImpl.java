@@ -1,5 +1,6 @@
 package com.sqli.intern.api.validator.services.impl;
 
+import com.sqli.intern.api.validator.authentication.AuthHeaderProvider;
 import com.sqli.intern.api.validator.entities.ProjectEntity;
 import com.sqli.intern.api.validator.repositories.ProjectRepository;
 import com.sqli.intern.api.validator.services.OperationService;
@@ -10,9 +11,11 @@ import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
 import com.sqli.intern.api.validator.utilities.mappers.OperationMapper;
 import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NAME_ALREADY_EXIST;
@@ -25,6 +28,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private OperationService operationService;
+    @Autowired
+    Environment env;
 
     @Override
     public List<ProjectDto> getAllProjects() {
@@ -72,14 +77,23 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectDto runProjectTests(Long id) {
         ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
+        final AuthHeaderProvider AUTH_HEADER_PROVIDER = createAuthHeaderProvider(project);
         List<ResponseDto> responseDtos = project.getOperations().stream()
                 .map(OperationMapper::map)
-                .map(operationService::runTest)
+                .map(operation -> operationService.runTest(operation, AUTH_HEADER_PROVIDER))
                 .collect(Collectors.toList());
         ProjectDto projectDto = ProjectMapper.map(project);
         projectDto.setResponseDto(responseDtos);
         return projectDto;
     }
+
+    private AuthHeaderProvider createAuthHeaderProvider(ProjectEntity project) {
+        String projectPrefix = project.getName();
+        String username = Objects.requireNonNull(env.getProperty("myapp.username")).replace("myapp", projectPrefix);
+        String password = Objects.requireNonNull(env.getProperty("myapp.password")).replace("myapp", projectPrefix);
+        return new AuthHeaderProvider(username, password);
+    }
+
 
     public ProjectEntity getProjectEntityOrThrowExceptionIfNotFound(Long id) {
         return projectRepository.findById(id)
