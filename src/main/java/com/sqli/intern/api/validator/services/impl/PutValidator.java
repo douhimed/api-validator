@@ -18,7 +18,7 @@ public class PutValidator implements OperationValidator {
     }
 
     private boolean isExpectedTypeValid(String type) {
-        if(!ExpectedTypeEnum.estPutTypeValid(type))
+        if (!ExpectedTypeEnum.estPutTypeValid(type))
             throw new OperationException(NOT_VALID_EXPECTED_RESPONSE_TYPE);
         return true;
     }

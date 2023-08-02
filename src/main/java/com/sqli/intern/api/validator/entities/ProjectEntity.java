@@ -25,4 +25,5 @@ public class ProjectEntity implements Serializable {
     @OneToMany(mappedBy = "project")
     private List<OperationEntity> operations;
 
+    private boolean withAuth;
 }

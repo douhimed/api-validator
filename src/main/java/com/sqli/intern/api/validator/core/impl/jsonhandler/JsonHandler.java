@@ -3,6 +3,7 @@ package com.sqli.intern.api.validator.core.impl.jsonhandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sqli.intern.api.validator.authentication.AuthHeaderProvider;
 import com.sqli.intern.api.validator.core.JsonComparator;
 import com.sqli.intern.api.validator.core.impl.OperationHandler;
 import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
@@ -18,6 +19,15 @@ public abstract class JsonHandler extends OperationHandler implements JsonCompar
 
     @Override
     public void invoke(ResponseDto responseDto) {
+        try {
+            JsonNode expectedJsonNode = objectMapper.readTree(responseDto.getExpectedResponse());
+            invokeValidation(expectedJsonNode, responseDto);
+        } catch (JsonProcessingException e) {
+            responseDto.addMessage(ReportDto.createErrorMessage("INVALID FORMAT"));
+        }
+    }
+    @Override
+    public void invoke(ResponseDto responseDto, AuthHeaderProvider authHeaderProvider) {
         try {
             JsonNode expectedJsonNode = objectMapper.readTree(responseDto.getExpectedResponse());
             invokeValidation(expectedJsonNode, responseDto);

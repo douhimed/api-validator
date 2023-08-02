@@ -2,39 +2,41 @@ package com.sqli.intern.api.validator.authentication;
 
 import java.nio.charset.StandardCharsets;
 
-import com.sqli.intern.api.validator.utilities.enums.AuthenticationType;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 public class AuthHeaderProvider {
     private final String username;
     private final String password;
-    private final String jwtToken;
 
     public AuthHeaderProvider(String username, String password) {
         this.username = username;
         this.password = password;
-        this.jwtToken = null;
     }
 
-    public AuthHeaderProvider(String jwtToken) {
-        this.username = null;
-        this.password = null;
-        this.jwtToken = jwtToken;
+    public void setAuthHeader(HttpHeaders headers) {
+        String auth = username + ":" + password;
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
+        String authHeader = "Basic " + new String(encodedAuth);
+        headers.set("Authorization", authHeader);
     }
 
-    public HttpHeaders createAuthHeader(AuthenticationType authType) {
+    public void setDefaultHttpHeaders(HttpHeaders headers) {
+        headers.set("Authorization", "Basic <base64-encoded-username-and-password>");
+    }
+
+    public HttpHeaders setHeader() {
         HttpHeaders headers = new HttpHeaders();
-        if (authType == AuthenticationType.BASIC) {
-            String auth = username + ":" + password;
-            byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(StandardCharsets.US_ASCII));
-            String authHeader = "Basic " + new String(encodedAuth);
-            headers.set("Authorization", authHeader);
-        } else if (authType == AuthenticationType.JWT) {
-            assert jwtToken != null;
-            headers.setBearerAuth(jwtToken);
-        }
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        if (isAuthRequired()) setAuthHeader(headers);
+        else setDefaultHttpHeaders(headers);
         return headers;
     }
-}
 
+    private boolean isAuthRequired() {
+        return StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password);
+    }
+
+}
