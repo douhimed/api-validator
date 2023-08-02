@@ -78,7 +78,13 @@ public class ProjectServiceImpl implements ProjectService {
         final AuthHeaderProvider authHeaderProvider = setAuthHeaderProvider(project);
         List<ResponseDto> responseDtos = project.getOperations().stream()
                 .map(OperationMapper::map)
-                .map(operation -> operationService.runTest(operation, authHeaderProvider))
+                .map(operation -> {
+                    try {
+                        return operationService.runTest(operation, authHeaderProvider);
+                    } catch (InstantiationException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .toList();
         ProjectDto projectDto = ProjectMapper.map(project);
         projectDto.setResponseDto(responseDtos);

@@ -12,7 +12,7 @@ public interface OperationService {
 
 
     ResponseDto runTest(OperationDto operationDto) throws InstantiationException;
-    ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider);
+    ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException;
 
     List<OperationDto> getAllOperations();
 

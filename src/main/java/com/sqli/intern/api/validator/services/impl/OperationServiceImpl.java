@@ -58,7 +58,7 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) {
+    public ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException {
         final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
         restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto, authHeaderProvider);
         return responseDto;
