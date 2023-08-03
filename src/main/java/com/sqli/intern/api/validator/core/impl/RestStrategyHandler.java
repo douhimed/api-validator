@@ -5,7 +5,6 @@ import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.INSTANTIATION_NOT_ALLOWED;
 
 @Component
 public class RestStrategyHandler {
