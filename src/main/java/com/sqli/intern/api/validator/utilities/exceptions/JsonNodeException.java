@@ -6,6 +6,7 @@ public class JsonNodeException extends RuntimeException {
     public JsonNodeException(String message) {
         super(message);
     }
+
     public JsonNodeException(ExceptionMessageEnum reason) {
         this(reason.getMessage());
     }
