@@ -3,6 +3,7 @@ package com.sqli.intern.api.validator.services.impl;
 import java.nio.charset.Charset;
 
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import com.sqli.intern.api.validator.utilities.models.JiraPayload;
@@ -41,7 +42,7 @@ public class JiraTicketService {
 
     public HttpHeaders getHeaders() {
         String auth = username + ":" + secret;
-        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(Charset.forName("US-ASCII")));
+        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.US_ASCII));
         String authHeader = "Basic " + new String(encodedAuth);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authHeader);
