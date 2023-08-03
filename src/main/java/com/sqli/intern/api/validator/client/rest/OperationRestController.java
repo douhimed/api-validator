@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/operation")
-@CrossOrigin("*")
 @Tag(name = "Operation Rest Controller", description = "Endpoints related to API Validation")
 public class OperationRestController {
     @Autowired
@@ -46,13 +46,6 @@ public class OperationRestController {
     public ResponseEntity<Long> updateOperationById(@Valid @RequestBody  OperationDto operationDto,
                                                     @PathVariable Long id) {
         Long operationId = operationService.updateOperation(id, operationDto);
-        return new ResponseEntity<>(operationId, HttpStatus.OK);
-    }
-
-    @PatchMapping(path = "/{id}")
-    public ResponseEntity<Long> updateExcpectedResponse(@RequestBody  String newExcpectedResponse,
-                                                    @PathVariable Long id) {
-        Long operationId = operationService.updateExcpectedResponse(id,newExcpectedResponse);
         return new ResponseEntity<>(operationId, HttpStatus.OK);
     }
 

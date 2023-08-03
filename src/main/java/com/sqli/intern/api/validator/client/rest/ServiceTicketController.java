@@ -1,6 +1,7 @@
-package com.sqli.intern.api.validator.jiraticket;
+package com.sqli.intern.api.validator.client.rest;
 
-import com.sqli.intern.api.validator.jiraticket.model.JiraPayload;
+import com.sqli.intern.api.validator.services.impl.JiraTicketService;
+import com.sqli.intern.api.validator.utilities.models.JiraPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

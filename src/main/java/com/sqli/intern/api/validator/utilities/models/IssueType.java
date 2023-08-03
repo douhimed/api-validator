@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.jiraticket.model;
+package com.sqli.intern.api.validator.utilities.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.authentication;
+package com.sqli.intern.api.validator.utilities.models;
 
 import java.nio.charset.StandardCharsets;
 
