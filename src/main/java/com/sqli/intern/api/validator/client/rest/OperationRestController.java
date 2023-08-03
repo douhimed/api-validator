@@ -52,7 +52,7 @@ public class OperationRestController {
     @PatchMapping(path = "/{id}")
     public ResponseEntity<Long> updateExcpectedResponse(@RequestBody  String newExcpectedResponse,
                                                     @PathVariable Long id) {
-        Long operationId = operationService.updateExcpectedResponse(id,newExcpectedResponse);
+        Long operationId = operationService.updateExpectedResponse(id,newExcpectedResponse);
         return new ResponseEntity<>(operationId, HttpStatus.OK);
     }
 

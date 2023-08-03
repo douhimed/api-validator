@@ -8,6 +8,7 @@ import com.sqli.intern.api.validator.services.ProjectService;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
+import com.sqli.intern.api.validator.utilities.exceptions.TestRunException;
 import com.sqli.intern.api.validator.utilities.mappers.OperationMapper;
 import com.sqli.intern.api.validator.utilities.mappers.ProjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,7 +83,7 @@ public class ProjectServiceImpl implements ProjectService {
                     try {
                         return operationService.runTest(operation, authHeaderProvider);
                     } catch (InstantiationException e) {
-                        throw new RuntimeException(e);
+                        throw new TestRunException("Test run failed");
                     }
                 })
                 .toList();
@@ -90,6 +91,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectDto.setResponseDto(responseDtos);
         return projectDto;
     }
+
 
     private AuthHeaderProvider setAuthHeaderProvider(ProjectEntity project) {
         String username = env.getProperty(project.getName() + ".username");

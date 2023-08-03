@@ -94,9 +94,9 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public Long updateExcpectedResponse(Long operationId, String newExcpectedResponse) {
+    public Long updateExpectedResponse(Long operationId, String newExpectedResponse) {
         final OperationEntity operationEntity = getOperationEntityOrThrowsException(operationId);
-        operationEntity.setExpectedResponse(newExcpectedResponse);
+        operationEntity.setExpectedResponse(newExpectedResponse);
         OperationDto operationDto = OperationMapper.map(operationEntity);
         validateOperation(operationDto);
         return operationRepository.save(operationEntity).getId();
