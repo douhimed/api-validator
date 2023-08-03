@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Fields {
-    private static final String NULL_VALUE = "<null>";
 
     @JsonProperty("project")
     private Project project;
@@ -24,20 +23,28 @@ public class Fields {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(Fields.class.getName()).append('@').append(Integer.toHexString(System.identityHashCode(this))).append('[');
-        appendField(sb, "project", this.project);
-        appendField(sb, "summary", this.summary);
-        appendField(sb, "description", this.description);
-        appendField(sb, "issuetype", this.issuetype);
-        if (sb.charAt(sb.length() - 1) == ',') {
-            sb.setCharAt(sb.length() - 1, ']');
+        sb.append("project");
+        sb.append('=');
+        sb.append(((this.project == null) ? "<null>" : this.project));
+        sb.append(',');
+        sb.append("summary");
+        sb.append('=');
+        sb.append(((this.summary == null) ? "<null>" : this.summary));
+        sb.append(',');
+        sb.append("description");
+        sb.append('=');
+        sb.append(((this.description == null) ? "<null>" : this.description));
+        sb.append(',');
+        sb.append("issuetype");
+        sb.append('=');
+        sb.append(((this.issuetype == null) ? "<null>" : this.issuetype));
+        sb.append(',');
+        if (sb.charAt((sb.length() - 1)) == ',') {
+            sb.setCharAt((sb.length() - 1), ']');
         } else {
             sb.append(']');
         }
         return sb.toString();
-    }
-
-    private void appendField(StringBuilder sb, String fieldName, Object value) {
-        sb.append(fieldName).append('=').append(value == null ? NULL_VALUE : value).append(',');
     }
 
 }
