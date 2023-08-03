@@ -1,11 +1,11 @@
 package com.sqli.intern.api.validator.jiraticket;
 
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
-import com.sqli.intern.api.validator.jiraticket.model.JiraPayload;
 
 import java.util.Base64;
 
+import com.sqli.intern.api.validator.jiraticket.model.JiraPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -32,18 +32,16 @@ public class JiraTicketService {
                 HttpMethod.POST,
                 new HttpEntity<>(jiraPayload, getHeaders()),
                 String.class);
-        HttpStatus statusCode = (HttpStatus) response.getStatusCode();
-        if (statusCode.is2xxSuccessful()) {
+        if (response != null) {
             return response.getBody();
-        } else {
-            return "Error: Unable to create Jira ticket. Status code: " + statusCode.value();
         }
+        return null;
     }
 
 
     public HttpHeaders getHeaders() {
         String auth = username + ":" + secret;
-        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.US_ASCII));
+        byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authHeader);
