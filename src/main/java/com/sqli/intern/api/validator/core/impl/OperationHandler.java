@@ -1,6 +1,6 @@
 package com.sqli.intern.api.validator.core.impl;
 
-import com.sqli.intern.api.validator.authentication.AuthHeaderProvider;
+import com.sqli.intern.api.validator.utilities.models.AuthHeaderProvider;
 import com.sqli.intern.api.validator.core.impl.jsonhandler.JsonHandler;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 
