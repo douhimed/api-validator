@@ -33,10 +33,7 @@ public class JiraTicketService {
                 HttpMethod.POST,
                 new HttpEntity<>(jiraPayload, getHeaders()),
                 String.class);
-        if (response != null) {
-            return response.getBody();
-        }
-        return null;
+        return response.getBody();
     }
 
 
