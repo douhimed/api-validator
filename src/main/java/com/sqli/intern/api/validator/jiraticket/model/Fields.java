@@ -17,7 +17,7 @@ public class Fields {
     @JsonProperty("description")
     private String description;
     @JsonProperty("issuetype")
-    private Issuetype issuetype;
+    private IssueType issuetype;
 
     @Override
     public String toString() {

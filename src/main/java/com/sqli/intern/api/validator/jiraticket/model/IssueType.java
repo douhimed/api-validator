@@ -8,7 +8,7 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
-public class Issuetype {
+public class IssueType {
 
     @JsonProperty("id")
     private String id;
