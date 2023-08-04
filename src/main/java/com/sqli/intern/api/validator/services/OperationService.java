@@ -25,4 +25,5 @@ public interface OperationService {
 
     Long deleteOperation(Long id);
 
+    void updateActual(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException;
 }

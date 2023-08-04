@@ -60,7 +60,7 @@ public class OperationServiceImpl implements OperationService {
     @Override
     public ResponseDto runTest(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException {
         final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
-        restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto, authHeaderProvider);
+        restStrategyHandler.getCaller(operationDto.getType()).invoke(responseDto, authHeaderProvider);
         return responseDto;
     }
 
@@ -108,6 +108,15 @@ public class OperationServiceImpl implements OperationService {
         operationRepository.delete(operationEntity);
         return id;
     }
+
+    @Override
+    public void updateActual(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException {
+        final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
+        restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto, authHeaderProvider);
+        operationDto.setActualResponse(responseDto.getActualResponse());
+        updateOperation(operationDto.getId(), operationDto);
+    }
+
 
     private void validateOperation(OperationDto operationDto) {
         getValidator(OperationTypeEnum.from(operationDto.getType())).validate(operationDto);
