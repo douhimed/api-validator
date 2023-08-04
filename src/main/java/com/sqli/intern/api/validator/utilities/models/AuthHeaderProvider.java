@@ -24,7 +24,6 @@ public class AuthHeaderProvider {
     }
 
     public void setDefaultHttpHeaders(HttpHeaders headers) {
-        headers.set("Authorization", "Basic <base64-encoded-username-and-password>");
     }
 
     public HttpHeaders setHeader() {
