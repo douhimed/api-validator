@@ -43,6 +43,19 @@ public class ProjectServiceImpl implements ProjectService {
                 .toList();
     }
 
+    public List<ProjectDto> getAllProjectsWithOperations() {
+        return projectRepository.findAllByDeletedFalse()
+                .stream()
+                .map(projectEntity -> {
+                    ProjectDto projectDto = new ProjectDto();
+                    projectDto.setId(projectEntity.getId());
+                    projectDto.setName(projectEntity.getName());
+                    projectDto.setOperationDtos(OperationMapper.map(projectEntity.getOperations()));
+                    return projectDto;
+                })
+                .toList();
+    }
+
     @Override
     public ProjectDto getProjectById(Long id) {
         return projectRepository.findByIdAndDeletedFalse(id)

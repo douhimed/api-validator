@@ -8,6 +8,8 @@ import java.util.List;
 public interface ProjectService {
     List<ProjectDto> getAllProjects();
 
+    List<ProjectDto> getAllProjectsWithOperations();
+
     ProjectDto getProjectById(Long id);
 
     Long addProject(ProjectDto projectDto);

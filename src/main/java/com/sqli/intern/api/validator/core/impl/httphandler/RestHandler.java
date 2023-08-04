@@ -35,7 +35,11 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
 
     @Override
     public void runTest(ResponseDto responseDto, AuthHeaderProvider authHeaderProvider) {
-        invoke(responseDto, authHeaderProvider);
+        try {
+            callApi(responseDto, authHeaderProvider);
+        } catch (HttpClientErrorException e) {
+            setExceptionMessage(responseDto, e);
+        }
     }
 
     @Override
@@ -46,21 +50,29 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
     @Override
     public void invoke(ResponseDto responseDto, AuthHeaderProvider authHeaderProvider) {
         try {
-            ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl().trim(),
-                    getType(),
-                    new HttpEntity<>(getBody(responseDto), authHeaderProvider.setHeader()),
-                    String.class);
-            responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
-            responseDto.setActualResponse(responseEntity.getBody());
+            callApi(responseDto, authHeaderProvider);
             invokeNext(responseDto, null);
-        } catch (
-                HttpClientErrorException e) {
-            String errorMessage = e.getStatusCode().is5xxServerError()
-                    ? ExceptionMessageEnum.SERVICE_NOT_FOUND.getMessage()
-                    : ExceptionMessageEnum.BAD_REQUEST.getMessage();
-
-            responseDto.addMessage(ReportDto.createErrorMessage(errorMessage));
+        } catch (HttpClientErrorException e) {
+            setExceptionMessage(responseDto, e);
         }
+    }
+
+    private static void setExceptionMessage(ResponseDto responseDto, HttpClientErrorException e) {
+        String errorMessage = e.getStatusCode().is5xxServerError()
+                ? ExceptionMessageEnum.SERVICE_NOT_FOUND.getMessage()
+                : ExceptionMessageEnum.BAD_REQUEST.getMessage();
+
+        responseDto.addMessage(ReportDto.createErrorMessage(errorMessage));
+    }
+
+
+    private void callApi(ResponseDto responseDto, AuthHeaderProvider authHeaderProvider) {
+        ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl().trim(),
+                getType(),
+                new HttpEntity<>(getBody(responseDto), authHeaderProvider.setHeader()),
+                String.class);
+        responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
+        responseDto.setActualResponse(responseEntity.getBody());
     }
 
 }

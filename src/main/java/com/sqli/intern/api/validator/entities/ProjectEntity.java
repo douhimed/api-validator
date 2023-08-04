@@ -22,7 +22,7 @@ public class ProjectEntity implements Serializable {
 
     private boolean deleted;
 
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     private List<OperationEntity> operations;
 
     private boolean withAuth;
