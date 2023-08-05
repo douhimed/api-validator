@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sqli.intern.api.validator.utilities.ValidatorUtility;
 import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 
 @Component("commandValidator")
@@ -34,6 +34,20 @@ public class CommandValidator extends JsonHandler {
         if (status.isInvalid()) {
             responseDto.addMessage(ReportDto.createErrorMessage("INVALID TYPE"));
         }
+    }
+
+    @Override
+    public void compareJson(ResponseDto responseDto) {
+        invoke(responseDto, null);
+    }
+
+    @Override
+    public Set<String> getSupportedRequestTypes() {
+        Set<String> supportedRequestTypes = new HashSet<>();
+        supportedRequestTypes.add(OperationTypeEnum.POST.name());
+        supportedRequestTypes.add(OperationTypeEnum.DELETE.name());
+        supportedRequestTypes.add(OperationTypeEnum.PUT.name());
+        return supportedRequestTypes;
     }
 
 }

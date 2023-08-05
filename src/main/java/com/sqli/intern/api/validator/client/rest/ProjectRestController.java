@@ -1,7 +1,9 @@
 package com.sqli.intern.api.validator.client.rest;
 
 import com.sqli.intern.api.validator.services.ProjectService;
+import com.sqli.intern.api.validator.services.impl.ValidationContext;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
+import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.List;
 public class ProjectRestController {
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private ValidationContext validationContext;
 
     @GetMapping
     public ResponseEntity<List<ProjectDto>> getAllProjects() {
@@ -51,5 +55,16 @@ public class ProjectRestController {
     public ResponseEntity<ProjectDto> runProjectTests(@PathVariable Long id) {
         ProjectDto projectDto = projectService.runProjectTests(id);
         return new ResponseEntity<>(projectDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/compare")
+    public ResponseEntity<String> compareJson(@RequestBody ResponseDto responseDto) {
+        String requestType = responseDto.getType();
+        try {
+            validationContext.compareJson(requestType, responseDto);
+            return ResponseEntity.ok("Validation successful! " + responseDto.getValidationStatus());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Validation failure : " + e.getMessage());
+        }
     }
 }
