@@ -18,8 +18,11 @@ public class OperationEntity implements Serializable {
     private Long id;
     private String url;
     private String type;
+    @Column(columnDefinition = "TEXT")
     private String body;
+    @Column(columnDefinition = "TEXT")
     private String expectedResponse;
+    @Column(columnDefinition = "TEXT")
     private String actualResponse;
     private String expectedType;
     @ManyToOne

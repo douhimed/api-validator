@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+
 @Getter
 @Setter
 @Builder
@@ -16,14 +17,15 @@ public class ReportDto {
     private String path;
     @JsonProperty("value")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ValueDto value;
+    private Object value;
 
 
     public static ReportDto createErrorMessage(String errorMsg) {
         return ReportDto.builder()
                 .value(ValueDto.builder()
                         .msg(errorMsg)
-                        .build())
+                        .build()
+                        .toString())
                 .build();
     }
 }

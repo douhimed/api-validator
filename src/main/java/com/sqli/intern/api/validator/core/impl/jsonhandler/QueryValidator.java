@@ -7,11 +7,12 @@ import com.flipkart.zjsonpatch.JsonDiff;
 import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.JsonUtils;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class QueryValidator extends JsonHandler {
@@ -40,13 +41,10 @@ public class QueryValidator extends JsonHandler {
     }
 
     private static void createValidationMessages(ResponseDto responseDto, JsonNode patch) {
-
-        List<ReportDto> reportDtos = new ArrayList<>();
         for (JsonNode node : patch) {
             if (JsonUtils.isNodeValueNotEqual(node, PATH, MOVE))
-                reportDtos.add(mapJsonToReportDto(node));
+                responseDto.addMessage(mapJsonToReportDto(node));
         }
-        responseDto.setMessages(reportDtos);
     }
 
     private static ReportDto mapJsonToReportDto(JsonNode node) {
@@ -59,4 +57,10 @@ public class QueryValidator extends JsonHandler {
         invoke(responseDto, null);
     }
 
+    @Override
+    public Set<String> getSupportedRequestTypes() {
+        Set<String> supportedRequestTypes = new HashSet<>();
+        supportedRequestTypes.add(OperationTypeEnum.GET.name());
+        return supportedRequestTypes;
+    }
 }

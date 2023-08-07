@@ -2,6 +2,7 @@ package com.sqli.intern.api.validator.client.rest;
 
 import com.sqli.intern.api.validator.services.ProjectService;
 import com.sqli.intern.api.validator.utilities.dtos.ProjectDto;
+import com.sqli.intern.api.validator.utilities.exceptions.ProjectException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,15 @@ public class ProjectRestController {
     public ResponseEntity<ProjectDto> runProjectTests(@PathVariable Long id) {
         ProjectDto projectDto = projectService.runProjectTests(id);
         return new ResponseEntity<>(projectDto, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{id}/rapport")
+    public ResponseEntity<ProjectDto> compareJson(@PathVariable Long id) {
+        try {
+            ProjectDto projectDto = projectService.compareJsonAndValidate(id);
+            return ResponseEntity.ok(projectDto);
+        } catch (IllegalArgumentException e) {
+            throw new ProjectException("Validation error");
+        }
     }
 }

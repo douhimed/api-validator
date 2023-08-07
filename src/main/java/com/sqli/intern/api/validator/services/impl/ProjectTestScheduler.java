@@ -1,4 +1,4 @@
-package com.sqli.intern.api.validator.core;
+package com.sqli.intern.api.validator.services.impl;
 
 import com.sqli.intern.api.validator.services.OperationService;
 import com.sqli.intern.api.validator.services.ProjectService;
