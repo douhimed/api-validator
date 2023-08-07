@@ -21,4 +21,5 @@ public interface ProjectService {
     ProjectDto runProjectTests(Long id);
 
     ProjectEntity getProjectEntityOrThrowExceptionIfNotFound(Long id);
+    ProjectDto compareJsonAndValidate(Long id);
 }

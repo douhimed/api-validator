@@ -3,6 +3,9 @@ package com.sqli.intern.api.validator.utilities.mappers;
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.INSTANTIATION_NOT_ALLOWED;
 
 public final class RequestResponseMapper {
