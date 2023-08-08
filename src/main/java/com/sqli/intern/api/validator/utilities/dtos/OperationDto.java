@@ -26,6 +26,8 @@ public class OperationDto {
     private String actualResponse;
     private String expectedType;
 
+    private String httpStatus;
+
     @JsonIgnore
     private Long projectId;
 }

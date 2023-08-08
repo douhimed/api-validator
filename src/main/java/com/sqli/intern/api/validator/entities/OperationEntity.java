@@ -28,5 +28,6 @@ public class OperationEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private ProjectEntity project;
+    private String httpStatus;
 
 }

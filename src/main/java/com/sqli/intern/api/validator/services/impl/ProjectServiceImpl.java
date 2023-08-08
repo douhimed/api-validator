@@ -17,7 +17,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NAME_ALREADY_EXIST;
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.PROJECT_NOT_FOUND;
@@ -132,14 +131,13 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDto compareJsonAndValidate(Long id) {
         ProjectDto projectDto = getProjectById(id);
         List<ResponseDto> responseDtos = projectDto.getOperationDtos().stream()
-                .map(RequestResponseMapper::map).collect(Collectors.toList());
+                .map(RequestResponseMapper::map).toList();
         projectDto.setResponseDto(responseDtos);
 
         for (ResponseDto responseDto : responseDtos) {
             String requestType = responseDto.getType();
             validationContext.compareJson(requestType, responseDto);
         }
-
         projectDto.setOperationDtos(null);
         return projectDto;
     }

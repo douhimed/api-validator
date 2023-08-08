@@ -39,7 +39,7 @@ public class ProjectTestScheduler {
         final AuthHeaderProvider authHeaderProvider = setAuthHeaderProvider(project);
         project.getOperationDtos().forEach(operation -> {
             try {
-                this.operationService.updateActual(operation, authHeaderProvider);
+                this.operationService.updateActualResponseAndHttpStatus(operation, authHeaderProvider);
                 log.info("operation id : " + operation.getId() + " started");
             } catch (InstantiationException e) {
                 log.warn(e.getMessage());

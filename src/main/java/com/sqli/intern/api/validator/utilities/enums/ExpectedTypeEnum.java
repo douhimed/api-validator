@@ -34,6 +34,7 @@ public enum ExpectedTypeEnum {
 
         VALID_DELETE_EXPECTED_TYPE = new ArrayList<>();
         VALID_DELETE_EXPECTED_TYPE.add(VOID);
+        VALID_DELETE_EXPECTED_TYPE.add(NUMBER);
     }
 
     public static boolean estPostTypeValid(String type) {
