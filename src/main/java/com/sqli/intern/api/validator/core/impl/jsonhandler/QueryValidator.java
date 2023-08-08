@@ -12,6 +12,7 @@ import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -35,9 +36,11 @@ public class QueryValidator extends JsonHandler {
     }
 
     private static void setValidationStatus(ResponseDto responseDto) {
-        responseDto.setValidationStatus(responseDto.getMessages().isEmpty()
-                ? ValidationStatus.VALID
-                : ValidationStatus.INVALID);
+        List<ReportDto> messages = responseDto.getMessages();
+        ValidationStatus validationStatus = (messages != null && !messages.isEmpty())
+                ? ValidationStatus.INVALID
+                : ValidationStatus.VALID;
+        responseDto.setValidationStatus(validationStatus);
     }
 
     private static void createValidationMessages(ResponseDto responseDto, JsonNode patch) {

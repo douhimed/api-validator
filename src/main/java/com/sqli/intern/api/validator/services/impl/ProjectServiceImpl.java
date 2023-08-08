@@ -132,14 +132,13 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDto compareJsonAndValidate(Long id) {
         ProjectDto projectDto = getProjectById(id);
         List<ResponseDto> responseDtos = projectDto.getOperationDtos().stream()
-                .map(RequestResponseMapper::map).collect(Collectors.toList());
+                .map(RequestResponseMapper::map).toList();
         projectDto.setResponseDto(responseDtos);
 
         for (ResponseDto responseDto : responseDtos) {
             String requestType = responseDto.getType();
             validationContext.compareJson(requestType, responseDto);
         }
-
         projectDto.setOperationDtos(null);
         return projectDto;
     }

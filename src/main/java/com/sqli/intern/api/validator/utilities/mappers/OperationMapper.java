@@ -22,6 +22,7 @@ public final class OperationMapper {
                 .actualResponse(operationEntity.getActualResponse())
                 .expectedResponse(operationEntity.getExpectedResponse())
                 .expectedType(operationEntity.getExpectedType())
+                .httpStatus(operationEntity.getHttpStatus())
                 .build();
     }
 
@@ -40,6 +41,7 @@ public final class OperationMapper {
                 .actualResponse(operationDto.getActualResponse())
                 .expectedType(operationDto.getExpectedType())
                 .project(ProjectEntity.builder().id(operationDto.getProjectId()).build())
+                .httpStatus(operationDto.getHttpStatus())
                 .build();
     }
 
@@ -56,5 +58,6 @@ public final class OperationMapper {
         operationEntity.setExpectedType(operationDto.getExpectedType());
         operationEntity.setExpectedResponse(operationDto.getExpectedResponse());
         operationEntity.setActualResponse(operationDto.getActualResponse());
+        operationEntity.setHttpStatus(operationDto.getHttpStatus());
     }
 }

@@ -110,10 +110,11 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public void updateActual(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException {
+    public void updateActualResponseAndHttpStatus(OperationDto operationDto, AuthHeaderProvider authHeaderProvider) throws InstantiationException {
         final ResponseDto responseDto = RequestResponseMapper.map(operationDto);
         restStrategyHandler.getCaller(operationDto.getType()).runTest(responseDto, authHeaderProvider);
         operationDto.setActualResponse(responseDto.getActualResponse());
+        operationDto.setHttpStatus(responseDto.getHttpStatus());
         updateOperation(operationDto.getId(), operationDto);
     }
 

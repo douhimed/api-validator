@@ -1,5 +1,7 @@
 package com.sqli.intern.api.validator.core.impl.httphandler;
 
+import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
+import com.sqli.intern.api.validator.utilities.mappers.RequestResponseMapper;
 import com.sqli.intern.api.validator.utilities.models.AuthHeaderProvider;
 import com.sqli.intern.api.validator.core.RestCaller;
 import com.sqli.intern.api.validator.core.impl.OperationHandler;
@@ -26,7 +28,7 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
 
     public abstract HttpMethod getType();
 
-    public abstract <T>HttpEntity<T> getBody(ResponseDto responseDto);
+    public abstract <T> HttpEntity<T> getBody(ResponseDto responseDto);
 
     @Override
     public void runTest(ResponseDto responseDto) {
@@ -72,7 +74,14 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
                 new HttpEntity<>(getBody(responseDto), authHeaderProvider.setHeader()),
                 String.class);
         responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
+        updateHttpStatusOfOperation(responseDto);
         responseDto.setActualResponse(responseEntity.getBody());
+
+    }
+
+    private static void updateHttpStatusOfOperation(ResponseDto responseDto) {
+        OperationDto operationDto = RequestResponseMapper.from(responseDto);
+        operationDto.setHttpStatus(responseDto.getHttpStatus());
     }
 
 }
