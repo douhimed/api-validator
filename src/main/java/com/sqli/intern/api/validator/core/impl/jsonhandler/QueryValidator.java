@@ -11,6 +11,7 @@ import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +28,8 @@ public class QueryValidator extends JsonHandler {
         try {
             JsonNode currentJsonNode = objectMapper.readTree(responseDto.getActualResponse());
             JsonNode patch = JsonDiff.asJson(expected, currentJsonNode);
-            createValidationMessages(responseDto, patch);
+            List<ReportDto> validationMessages = createValidationMessages(patch);
+            responseDto.setMessages(validationMessages);
             setValidationStatus(responseDto);
         } catch (JsonProcessingException e) {
             responseDto.addMessage(ReportDto.createErrorMessage("INVALID FORMAT"));
@@ -35,19 +37,31 @@ public class QueryValidator extends JsonHandler {
         }
     }
 
+    private List<ReportDto> createValidationMessages(JsonNode patch) {
+        List<ReportDto> validationMessages = new ArrayList<>();
+
+        for (JsonNode node : patch) {
+            if (JsonUtils.isNodeValueNotEqual(node, PATH, MOVE)) {
+                ReportDto reportDto = ReportDto.builder()
+                        .operation(node.get("op").asText())
+                        .path(node.get("path").asText())
+                        .value(node.get("value"))
+                        .build();
+
+                validationMessages.add(reportDto);
+            }
+        }
+
+        return validationMessages;
+    }
+
+
     private static void setValidationStatus(ResponseDto responseDto) {
         List<ReportDto> messages = responseDto.getMessages();
         ValidationStatus validationStatus = (messages != null && !messages.isEmpty())
                 ? ValidationStatus.INVALID
                 : ValidationStatus.VALID;
         responseDto.setValidationStatus(validationStatus);
-    }
-
-    private static void createValidationMessages(ResponseDto responseDto, JsonNode patch) {
-        for (JsonNode node : patch) {
-            if (JsonUtils.isNodeValueNotEqual(node, PATH, MOVE))
-                responseDto.addMessage(mapJsonToReportDto(node));
-        }
     }
 
     private static ReportDto mapJsonToReportDto(JsonNode node) {
