@@ -23,6 +23,7 @@ public final class ProjectMapper {
         return ProjectEntity.builder()
                 .id(projectDto.getId())
                 .name(projectDto.getName())
+                .withAuth(projectDto.isWithAuth())
                 .build();
     }
 }
