@@ -33,6 +33,8 @@ public class CommandValidator extends JsonHandler {
         responseDto.setValidationStatus(status);
         if (status.isInvalid()) {
             responseDto.addMessage(ReportDto.createErrorMessage("INVALID TYPE"));
+        } else {
+            responseDto.setMessages(new ArrayList<>());
         }
     }
 
