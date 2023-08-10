@@ -25,5 +25,5 @@ public class ProjectEntity implements Serializable {
     @OneToMany(mappedBy = "project", fetch = FetchType.EAGER)
     private List<OperationEntity> operations;
 
-    private boolean withAuth;
+    private Boolean withAuth;
 }
