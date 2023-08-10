@@ -17,7 +17,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.NAME_ALREADY_EXIST;
 import static com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum.PROJECT_NOT_FOUND;
@@ -78,6 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
     public Long updateProject(Long id, ProjectDto projectDto) {
         ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
         project.setName(projectDto.getName());
+        project.setWithAuth(projectDto.getWithAuth());
         projectRepository.save(project);
         return id;
     }
