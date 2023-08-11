@@ -77,7 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
     public Long updateProject(Long id, ProjectDto projectDto) {
         ProjectEntity project = getProjectEntityOrThrowExceptionIfNotFound(id);
         project.setName(projectDto.getName());
-        project.setWithAuth(projectDto.getWithAuth());
+        project.setWithAuth(projectDto.isWithAuth());
         projectRepository.save(project);
         return id;
     }

@@ -19,5 +19,6 @@ public class ProjectDto {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ResponseDto> responseDto;
-    private Boolean withAuth;
+    private boolean withAuth;
+
 }

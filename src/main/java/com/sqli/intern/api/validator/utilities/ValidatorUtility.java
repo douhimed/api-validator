@@ -43,5 +43,8 @@ public final class ValidatorUtility {
             return false;
         }
     }
+    public static boolean isVoid(String value) {
+        return StringUtils.isBlank(value);
+    }
     
 }
