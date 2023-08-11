@@ -15,6 +15,7 @@ public final class ProjectMapper {
         return ProjectDto.builder()
                 .id(projectEntity.getId())
                 .name(projectEntity.getName())
+                .withAuth(projectEntity.getWithAuth())
                 .operationDtos(OperationMapper.map(projectEntity.getOperations()))
                 .build();
     }

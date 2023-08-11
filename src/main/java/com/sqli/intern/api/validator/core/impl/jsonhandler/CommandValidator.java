@@ -22,18 +22,35 @@ public class CommandValidator extends JsonHandler {
         PREDICATES.put("string", ValidatorUtility::isString);
         PREDICATES.put("boolean", ValidatorUtility::isBoolean);
         PREDICATES.put("json", ValidatorUtility::isJson);
+        PREDICATES.put("void", ValidatorUtility::isVoid);
     }
 
     @Override
     protected void invokeValidation(JsonNode patch, ResponseDto responseDto) {
-        Predicate<String> predicate = PREDICATES.getOrDefault(responseDto.getExpectedType(), ValidatorUtility::isJson);
-        ValidationStatus status = predicate.test(responseDto.getActualResponse())
-                ? ValidationStatus.VALID
-                : ValidationStatus.INVALID;
+        String expectedType = responseDto.getExpectedType();
+        String actualResponse = responseDto.getActualResponse();
+
+        boolean typesMatch = checkTypesMatch(expectedType, actualResponse);
+        ValidationStatus status = getValidationStatus(typesMatch);
         responseDto.setValidationStatus(status);
+        responseDto.setMessages(getValidationMessages(status));
+    }
+
+    private boolean checkTypesMatch(String expectedType, String actualResponse) {
+        return PREDICATES.containsKey(expectedType)
+                ? PREDICATES.get(expectedType).test(actualResponse)
+                : expectedType.equals(actualResponse);
+    }
+
+    private ValidationStatus getValidationStatus(boolean typesMatch) {
+        return typesMatch ? ValidationStatus.VALID : ValidationStatus.INVALID;
+    }
+
+    private List<ReportDto> getValidationMessages(ValidationStatus status) {
         if (status.isInvalid()) {
-            responseDto.addMessage(ReportDto.createErrorMessage("INVALID TYPE"));
+            return Collections.singletonList(ReportDto.createErrorMessage("INVALID TYPE"));
         }
+        return new ArrayList<>();
     }
 
     @Override
