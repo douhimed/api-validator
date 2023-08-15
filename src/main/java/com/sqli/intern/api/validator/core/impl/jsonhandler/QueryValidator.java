@@ -7,6 +7,7 @@ import com.flipkart.zjsonpatch.JsonDiff;
 import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.JsonUtils;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,8 @@ public class QueryValidator extends JsonHandler {
         } catch (JsonProcessingException e) {
             responseDto.addMessage(ReportDto.createErrorMessage("INVALID FORMAT"));
             responseDto.setValidationStatus(ValidationStatus.INVALID);
+        } catch (NullPointerException e){
+            responseDto.addMessage(ReportDto.createErrorMessage(ExceptionMessageEnum.BAD_REQUEST.getMessage()));
         }
     }
 
