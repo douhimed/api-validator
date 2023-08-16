@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.sqli.intern.api.validator.utilities.ValidatorUtility;
 import com.sqli.intern.api.validator.utilities.dtos.ReportDto;
 import com.sqli.intern.api.validator.utilities.dtos.ResponseDto;
+import com.sqli.intern.api.validator.utilities.enums.ExceptionMessageEnum;
 import com.sqli.intern.api.validator.utilities.enums.OperationTypeEnum;
 import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -27,18 +29,26 @@ public class CommandValidator extends JsonHandler {
 
     @Override
     protected void invokeValidation(JsonNode patch, ResponseDto responseDto) {
-        String expectedType = responseDto.getExpectedType();
-        String actualResponse = responseDto.getActualResponse();
-        if (responseDto.getValidationStatus() == null) {
-            boolean typesMatch = checkTypesMatch(expectedType, actualResponse);
-            ValidationStatus status = getValidationStatus(typesMatch);
-            responseDto.setValidationStatus(status);
-            responseDto.setMessages(getValidationMessages(status));
-        } else {
+        try {
+            if (responseDto.getActualResponse() == null) {
+                responseDto.addMessage(ReportDto.createErrorMessage(ExceptionMessageEnum.BAD_REQUEST.getMessage()));
+                responseDto.setValidationStatus(ValidationStatus.BAD_REQUEST);
+                return;
+            }
+            String expectedType = responseDto.getExpectedType();
+            String actualResponse = responseDto.getActualResponse();
+            if (responseDto.getValidationStatus() == null) {
+                boolean typesMatch = checkTypesMatch(expectedType, actualResponse);
+                ValidationStatus status = getValidationStatus(typesMatch);
+                responseDto.setValidationStatus(status);
+                responseDto.setMessages(getValidationMessages(status));
+            }
+        } catch (HttpClientErrorException e) {
             List<ReportDto> reportDtos = new ArrayList<>();
             reportDtos.add(ReportDto.createErrorMessage("BAD REQUEST"));
             responseDto.setMessages(reportDtos);
         }
+
     }
 
     private boolean checkTypesMatch(String expectedType, String actualResponse) {
