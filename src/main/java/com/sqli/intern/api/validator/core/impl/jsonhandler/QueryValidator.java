@@ -23,11 +23,18 @@ public class QueryValidator extends JsonHandler {
     private static final String PATH = "/op";
     private static final String MOVE = "move";
 
-
     @Override
     protected void invokeValidation(JsonNode expected, ResponseDto responseDto) {
         try {
-            JsonNode currentJsonNode = objectMapper.readTree(responseDto.getActualResponse());
+            String actualResponse = responseDto.getActualResponse();
+
+            if (actualResponse == null) {
+                responseDto.addMessage(ReportDto.createErrorMessage(ExceptionMessageEnum.BAD_REQUEST.getMessage()));
+                responseDto.setValidationStatus(ValidationStatus.BAD_REQUEST);
+                return;
+            }
+
+            JsonNode currentJsonNode = objectMapper.readTree(actualResponse);
             JsonNode patch = JsonDiff.asJson(expected, currentJsonNode);
             List<ReportDto> validationMessages = createValidationMessages(patch);
             responseDto.setMessages(validationMessages);
@@ -35,8 +42,6 @@ public class QueryValidator extends JsonHandler {
         } catch (JsonProcessingException e) {
             responseDto.addMessage(ReportDto.createErrorMessage("INVALID FORMAT"));
             responseDto.setValidationStatus(ValidationStatus.INVALID);
-        } catch (NullPointerException e){
-            responseDto.addMessage(ReportDto.createErrorMessage(ExceptionMessageEnum.BAD_REQUEST.getMessage()));
         }
     }
 
