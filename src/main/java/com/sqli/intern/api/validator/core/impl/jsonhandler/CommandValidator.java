@@ -29,11 +29,16 @@ public class CommandValidator extends JsonHandler {
     protected void invokeValidation(JsonNode patch, ResponseDto responseDto) {
         String expectedType = responseDto.getExpectedType();
         String actualResponse = responseDto.getActualResponse();
-
-        boolean typesMatch = checkTypesMatch(expectedType, actualResponse);
-        ValidationStatus status = getValidationStatus(typesMatch);
-        responseDto.setValidationStatus(status);
-        responseDto.setMessages(getValidationMessages(status));
+        if (responseDto.getValidationStatus() == null) {
+            boolean typesMatch = checkTypesMatch(expectedType, actualResponse);
+            ValidationStatus status = getValidationStatus(typesMatch);
+            responseDto.setValidationStatus(status);
+            responseDto.setMessages(getValidationMessages(status));
+        } else {
+            List<ReportDto> reportDtos = new ArrayList<>();
+            reportDtos.add(ReportDto.createErrorMessage("BAD REQUEST"));
+            responseDto.setMessages(reportDtos);
+        }
     }
 
     private boolean checkTypesMatch(String expectedType, String actualResponse) {

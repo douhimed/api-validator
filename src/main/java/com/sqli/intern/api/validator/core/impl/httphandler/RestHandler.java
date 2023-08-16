@@ -1,6 +1,7 @@
 package com.sqli.intern.api.validator.core.impl.httphandler;
 
 import com.sqli.intern.api.validator.utilities.dtos.OperationDto;
+import com.sqli.intern.api.validator.utilities.enums.ValidationStatus;
 import com.sqli.intern.api.validator.utilities.mappers.RequestResponseMapper;
 import com.sqli.intern.api.validator.utilities.models.AuthHeaderProvider;
 import com.sqli.intern.api.validator.core.RestCaller;
@@ -55,6 +56,8 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
             callApi(responseDto, authHeaderProvider);
             invokeNext(responseDto, null);
         } catch (HttpClientErrorException e) {
+            responseDto.setValidationStatus(ValidationStatus.BAD_REQUEST);
+            responseDto.setHttpStatus(String.valueOf(e.getStatusCode().value()));
             setExceptionMessage(responseDto, e);
         }
     }
@@ -69,13 +72,18 @@ public abstract class RestHandler extends OperationHandler implements RestCaller
 
 
     private void callApi(ResponseDto responseDto, AuthHeaderProvider authHeaderProvider) {
-        ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl().trim(),
-                getType(),
-                new HttpEntity<>(getBody(responseDto), authHeaderProvider.setHeader()),
-                String.class);
-        responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
-        updateHttpStatusOfOperation(responseDto);
-        responseDto.setActualResponse(responseEntity.getBody());
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.exchange(responseDto.getUrl().trim(),
+                    getType(),
+                    new HttpEntity<>(getBody(responseDto), authHeaderProvider.setHeader()),
+                    String.class);
+            responseDto.setHttpStatus(String.valueOf(responseEntity.getStatusCode().value()));
+            updateHttpStatusOfOperation(responseDto);
+            responseDto.setActualResponse(responseEntity.getBody());
+        } catch (HttpClientErrorException e) {
+            responseDto.setHttpStatus(String.valueOf(e.getStatusCode().value()));
+            responseDto.setValidationStatus(ValidationStatus.BAD_REQUEST);
+        }
 
     }
 
