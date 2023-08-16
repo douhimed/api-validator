@@ -30,7 +30,7 @@ public class CommandValidator extends JsonHandler {
     @Override
     protected void invokeValidation(JsonNode patch, ResponseDto responseDto) {
         try {
-            if (responseDto.getActualResponse() == null) {
+            if (responseDto.getActualResponse() == null || responseDto.getActualResponse().equals("")) {
                 responseDto.addMessage(ReportDto.createErrorMessage(ExceptionMessageEnum.BAD_REQUEST.getMessage()));
                 responseDto.setValidationStatus(ValidationStatus.BAD_REQUEST);
                 return;
